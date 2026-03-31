@@ -1,35 +1,75 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" href="./assets/img/4geeks.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hello Rigo with Vanilla.js</title>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>我的奇思妙想小宇宙</title>
+    
+    <!-- 引入 Pico CSS 基础排版 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <!-- 引入可爱的中文字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+    <!-- 引入我们专属的手绘风 CSS -->
+    <link rel="stylesheet" href="./css/home.css">
+</head>
+<body>
+    <main class="container">
+        <!-- 头部欢迎语 -->
+        <header class="hero-section text-center">
+            <h1 class="hand-title">✨ 欢迎来到我的宇宙 ✨</h1>
+            <p>这里收集了我的脑洞、代码和乱七八糟的碎片</p>
+        </header>
 
-    <!-- Fontawesome is our recomended library for icons -->
-    <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
-      integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
-      crossorigin="anonymous"
-    />
-  </head>
-  <body>
-    <!-- Write your HTML code here, you can delete everything withing the body tags -->
-    <div class="container-fluid text-center">
-      <h1 class="mt-5">Hello Rigo!</h1>
-      <img src="./assets/img/rigo-baby.jpg" />
-      <p class="alert alert-warning mt-4">
-        If this text is <b>not</b> centered and <b>yellow</b>, you probably have
-        an error
-      </p>
-      <div class="fixed-bottom p-4">
-        Made with ❤️ by
-        <a href="https://www.4geeksacademy.com">4Geeks Academy</a>
-      </div>
-    </div>
+        <!-- 四个手绘模块卡片 -->
+        <div class="grid card-grid">
+            <!-- 卡片 1 -->
+            <article class="hand-card" style="--card-color: #ffeaa7;" onclick="openModule('inspiration', '💡 创意灵感')">
+                <div class="card-content">
+                    <h2>💡</h2>
+                    <h3>创意灵感</h3>
+                </div>
+            </article>
+            <!-- 卡片 2 -->
+            <article class="hand-card" style="--card-color: #fab1a0;" onclick="openModule('portfolio', '🎨 作品集合')">
+                <div class="card-content">
+                    <h2>🎨</h2>
+                    <h3>作品集合</h3>
+                </div>
+            </article>
+            <!-- 卡片 3 -->
+            <article class="hand-card" style="--card-color: #74b9ff;" onclick="openModule('skills', '🚀 技能经验')">
+                <div class="card-content">
+                    <h2>🚀</h2>
+                    <h3>技能经验</h3>
+                </div>
+            </article>
+            <!-- 卡片 4 -->
+            <article class="hand-card" style="--card-color: #55efc4;" onclick="openModule('thoughts', '📝 个人感悟')">
+                <div class="card-content">
+                    <h2>📝</h2>
+                    <h3>个人感悟</h3>
+                </div>
+            </article>
+        </div>
+    </main>
 
-    <!-- Do not delete this script tag, this is what connects your HTML with the Javascript code -->
-    <script type="module" src="/app.js"></script>
-  </body>
+    <!-- 隐藏的弹出框：点击卡片后背景淡化，展示这里 -->
+    <dialog id="module-modal">
+        <article class="hand-modal">
+            <header>
+                <a href="#close" aria-label="Close" class="close" onclick="closeModal()"></a>
+                <h3 id="modal-title" class="hand-title">模块标题</h3>
+                <!-- 视图切换按钮 -->
+                <button class="toggle-btn" onclick="toggleView()">🔄 切换视图</button>
+            </header>
+            
+            <!-- 文章列表动态渲染到这里 -->
+            <div id="article-list" class="view-list">
+                <!-- JS 负责填充 -->
+            </div>
+        </article>
+    </dialog>
+
+    <script src="./js/home.js"></script>
+</body>
 </html>
