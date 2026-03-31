@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <!-- 这句极其重要！它是让手机端排版不乱的咒语 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>我的文章</title>
+    
+    <!-- 引入 Pico CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+    <!-- 1. 顶部导航栏：Pico 会自动把它变成好看的左右对齐的导航 -->
+    <header class="container">
+        <nav>
+            <ul>
+                <li><strong>我的极客小站</strong></li>
+            </ul>
+            <ul>
+                <li><a href="/index.html">返回首页</a></li>
+                <li><a href="#" id="btn-download" role="button" style="display: none;">下载附件</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- 2. 主体内容：放在 <main class="container"> 里，Pico 会自动居中并适配手机屏幕宽度 -->
+    <main class="container">
+        
+        <!-- 文章内容渲染区 -->
+        <article id="article-content">
+            <span aria-busy="true">正在加载极客灵感...</span>
+        </article>
+
+    </main>
+
+    <!-- 3. 页脚 -->
+    <footer class="container">
+        <hr>
+        <p><small>© 2026 我的个人空间</small></p>
+    </footer>
+
+    <script type="module" src="./js/article.js"></script>
+</body>
+</html>
