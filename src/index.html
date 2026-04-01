@@ -1,122 +1,129 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html class="light" lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>我的奇妙手账本</title>
-    <!-- Pico CSS 基础排版 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
-    <!-- 站酷快乐体 (手绘可爱风) -->
-    <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
-    <!-- 专属漫画风 CSS -->
-    <link rel="stylesheet" href="./css/home.css">
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>The Editorialist | Bold Narrative</title>
+    
+    <!-- 1. 引入外部 CSS -->
+    <link rel="stylesheet" href="./css/style.css">
+    
+    <!-- 2. 引入 Google 字体和图标 -->
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Manrope:wght@200..800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    
+    <!-- 3. 引入你抽离出去的主题配置文件 (必须放在 Tailwind 核心库前面) -->
+    <script src="./js/tailwind-theme.js"></script>
+    
+    <!-- 4. 引入 Tailwind 核心库 CDN -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 </head>
-<body>
+<body class="bg-surface text-on-surface font-body selection:bg-secondary-fixed selection:text-secondary">
 
-    <!-- 顶部横幅 (Hero Banner) -->
-    <header class="hero-banner">
-        <div class="hero-content">
-            <h1 class="hand-title bounce">✨ 欢迎降临我的精神自留地 ✨</h1>
-            <p>代码、画笔与奇思妙想的培养皿</p>
-            <!-- UIverse 移植的漫画风按钮 -->
-            <button class="uiverse-btn" onclick="alert('还没写这个功能呢！')">
-                <span class="text">投喂灵感 🍔</span>
+    <!-- 顶部导航栏 -->
+    <nav class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md flex justify-between items-center px-8 py-4 max-w-full mx-auto shadow-sm dark:shadow-none">
+        <div class="text-2xl font-black text-blue-950 dark:text-white uppercase tracking-widest font-headline">
+            The Editorialist
+        </div>
+        <div class="hidden md:flex items-center space-x-10">
+            <a class="text-orange-700 dark:text-orange-500 font-bold border-b-2 border-orange-700 pb-1 font-serif text-lg tracking-tight" href="#">Features</a>
+            <a class="text-slate-600 dark:text-slate-400 hover:text-blue-900 transition-colors font-serif text-lg tracking-tight" href="#">Archive</a>
+            <a class="text-slate-600 dark:text-slate-400 hover:text-blue-900 transition-colors font-serif text-lg tracking-tight" href="#">Essays</a>
+            <a class="text-slate-600 dark:text-slate-400 hover:text-blue-900 transition-colors font-serif text-lg tracking-tight" href="#">About</a>
+        </div>
+        <div class="flex items-center space-x-4">
+            <button class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-300 rounded-full flex items-center justify-center">
+                <span class="material-symbols-outlined text-blue-900 dark:text-blue-200" data-icon="dark_mode">dark_mode</span>
             </button>
         </div>
-        <!-- 装饰性手绘涂鸦 (纯CSS) -->
-        <div class="doodle star1">★</div>
-        <div class="doodle star2">✦</div>
-    </header>
+    </nav>
 
-    <!-- 核心博客布局：左侧主内容区，右侧侧边栏 -->
-    <main class="container blog-layout">
+    <!-- 进度条 -->
+    <div class="fixed top-0 left-0 w-1/3 h-1 bg-secondary z-[60]"></div>
+
+    <!-- 主体内容 -->
+    <main class="h-screen w-full flex flex-col md:flex-row items-center justify-center px-6 md:px-20 pt-20 overflow-hidden bg-surface relative">
+        <div class="absolute -top-20 -left-20 w-96 h-96 bg-secondary-fixed/20 rounded-full blur-3xl opacity-50"></div>
+        <div class="absolute -bottom-20 -right-20 w-96 h-96 bg-primary-fixed/20 rounded-full blur-3xl opacity-50"></div>
         
-        <!-- ================= 左侧：四个核心模块 ================= -->
-        <section class="main-modules">
-            <h2 class="section-title">📌 灵感导航</h2>
-            <div class="grid-2x2">
-                <!-- 模块 1：斜线阴影卡片 -->
-                <article class="sketch-card" style="--bg: #ffeaa7;" onclick="openModule('inspiration', '💡 创意灵感')">
-                    <div class="card-inner">
-                        <div class="icon-wrap">💡</div>
-                        <h3>创意灵感</h3>
-                    </div>
-                </article>
-                <!-- 模块 2 -->
-                <article class="sketch-card" style="--bg: #fab1a0;" onclick="openModule('portfolio', '🎨 作品集合')">
-                    <div class="card-inner">
-                        <div class="icon-wrap">🎨</div>
-                        <h3>作品集合</h3>
-                    </div>
-                </article>
-                <!-- 模块 3 -->
-                <article class="sketch-card" style="--bg: #81ecec;" onclick="openModule('skills', '🚀 技能经验')">
-                    <div class="card-inner">
-                        <div class="icon-wrap">🚀</div>
-                        <h3>技能经验</h3>
-                    </div>
-                </article>
-                <!-- 模块 4 -->
-                <article class="sketch-card" style="--bg: #a29bfe;" onclick="openModule('thoughts', '📝 个人感悟')">
-                    <div class="card-inner">
-                        <div class="icon-wrap">📝</div>
-                        <h3>个人感悟</h3>
-                    </div>
-                </article>
-            </div>
-        </section>
+        <button class="hidden md:flex absolute left-8 z-40 w-14 h-14 items-center justify-center rounded-full bg-surface-container-lowest text-primary hover:bg-secondary hover:text-white transition-all duration-300 shadow-xl shadow-primary/5 active:scale-95">
+            <span class="material-symbols-outlined text-3xl" data-icon="arrow_back_ios_new">arrow_back_ios_new</span>
+        </button>
 
-        <!-- ================= 右侧：侧边栏 (博客必备) ================= -->
-        <aside class="sidebar">
-            
-            <!-- UIverse 风格个人卡片 -->
-            <div class="uiverse-profile-card">
-                <!-- 这里你可以换成你的真实头像路径 src="/images/avatar.jpg" -->
-                <div class="avatar">👦</div>
-                <h3 class="name">极客阿明</h3>
-                <p class="desc">"只要不报错，代码就是完美的。"</p>
-                <div class="stats">
-                    <div><strong>42</strong><span>文章</span></div>
-                    <div><strong>12</strong><span>小游戏</span></div>
+        <div class="flex flex-col md:flex-row items-center w-full max-w-7xl mx-auto gap-12 md:gap-24">
+            <div class="w-full md:w-1/2 flex flex-col items-start text-left space-y-6 order-2 md:order-1">
+                <div class="flex items-center space-x-3 mb-2">
+                    <span class="h-px w-12 bg-secondary"></span>
+                    <span class="font-label text-xs uppercase tracking-[0.3em] text-secondary font-bold">Issue No. 042</span>
+                </div>
+                <h1 class="font-headline text-5xl md:text-7xl lg:text-8xl text-primary dark:text-on-surface leading-[0.95] tracking-tighter">
+                    The Silent <br/> <span class="italic text-secondary">Renaissance.</span>
+                </h1>
+                <p class="font-body text-lg md:text-xl text-on-surface-variant max-w-lg leading-relaxed">
+                    Exploring the intersection of brutalist architecture and organic minimalism in the heart of the Mediterranean. A curated visual essay on form and silence.
+                </p>
+                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6 pt-6">
+                    <button class="bg-secondary-container text-on-secondary px-8 py-4 rounded-md font-label uppercase tracking-widest text-sm font-bold hover:brightness-105 transition-all active:scale-95 shadow-lg shadow-secondary/20">
+                        Read Feature
+                    </button>
+                    <button class="group flex items-center space-x-2 py-4 text-primary font-bold font-label uppercase tracking-widest text-sm relative overflow-hidden">
+                        <span>View Gallery</span>
+                        <span class="material-symbols-outlined text-secondary transition-transform group-hover:translate-x-1" data-icon="arrow_right_alt">arrow_right_alt</span>
+                        <span class="absolute bottom-3 left-0 w-full h-[2px] bg-secondary scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
+                    </button>
                 </div>
             </div>
 
-            <!-- 标签云 -->
-            <div class="tag-cloud-card">
-                <h3>🏷️ 随便贴贴</h3>
-                <div class="tags">
-                    <span class="tag">#前端折腾</span>
-                    <span class="tag">#深夜脑洞</span>
-                    <span class="tag">#Vite魔法</span>
-                    <span class="tag">#像素画</span>
+            <div class="w-full md:w-1/2 flex justify-center items-center order-1 md:order-2 relative group">
+                <div class="relative w-72 h-[450px] md:w-[450px] md:h-[600px] overflow-hidden rounded-xl surface-container-highest shadow-2xl group-hover:[transform:none!important]" style="perspective: 1000px; transform: rotateX(5deg) rotateY(-15deg) rotateZ(-2deg); transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);">
+                    <div class="absolute top-6 left-6 z-10 bg-white/90 backdrop-blur px-4 py-2 rounded-full shadow-lg">
+                        <span class="font-label text-[10px] font-black uppercase tracking-widest text-primary">Limited Edition</span>
+                    </div>
+                    <img alt="Editorial feature" class="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-700 ease-out grayscale hover:grayscale-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCF-Q2DPcM1HEO-gxSZAcnFeUHT0ytHx6_FRi1daHWo1Yq3YGEQvX0ZUJTiNAUd6-UTrnSJVioERENS3T2bStAqsu_LiQyn0dVeD9nocpFbHZFAQQDsg37xDNToKL9SiixmcX-csKvXzxK4-3sN-QrDO8muRWwwo6JXhuzoiZukGfSVLZc-cLtGFvuF4MB72By5P9U4OjL2mC-2jdVxBvTsMm5xyFBIyqqG_vdcSQ3mfRCs3xuoGOKKlIOKtSrN0LRxuONDqcmEPHMl"/>
+                    <div class="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent opacity-60"></div>
                 </div>
+                <div class="absolute -z-10 top-12 -right-8 w-full h-full border-4 border-secondary-fixed-dim rounded-xl opacity-20 hidden md:block"></div>
+                <div class="absolute -bottom-6 -left-6 font-headline text-9xl text-surface-container opacity-20 select-none hidden md:block">01</div>
             </div>
+        </div>
 
-        </aside>
+        <button class="hidden md:flex absolute right-8 z-40 w-14 h-14 items-center justify-center rounded-full bg-surface-container-lowest text-primary hover:bg-secondary hover:text-white transition-all duration-300 shadow-xl shadow-primary/5 active:scale-95">
+            <span class="material-symbols-outlined text-3xl" data-icon="arrow_forward_ios">arrow_forward_ios</span>
+        </button>
+
+        <div class="md:hidden flex space-x-4 mt-8 pb-10">
+            <button class="w-12 h-12 flex items-center justify-center rounded-full bg-surface-container-high text-primary active:bg-secondary active:text-white transition-colors">
+                <span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span>
+            </button>
+            <button class="w-12 h-12 flex items-center justify-center rounded-full bg-surface-container-high text-primary active:bg-secondary active:text-white transition-colors">
+                <span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+            </button>
+        </div>
     </main>
 
-    <!-- 底部横幅 (Footer Banner) -->
-    <footer class="footer-banner">
-        <h2 class="hand-title">TO BE CONTINUED...</h2>
-        <p>用 键盘 与 咖啡 持续发电 © 2024</p>
-        <div class="scribble-line"></div>
+    <footer class="fixed bottom-0 w-full z-40 bg-blue-950 dark:bg-black text-white flex flex-col md:flex-row justify-between items-center px-12 py-4">
+        <div class="font-serif italic text-white text-sm">
+            The Editorialist.
+        </div>
+        <div class="flex space-x-8 my-2 md:my-0">
+            <a class="font-sans text-xs uppercase tracking-widest text-slate-400 hover:text-white transition-colors opacity-80 hover:opacity-100" href="#">Privacy</a>
+            <a class="font-sans text-xs uppercase tracking-widest text-slate-400 hover:text-white transition-colors opacity-80 hover:opacity-100" href="#">Terms</a>
+            <a class="font-sans text-xs uppercase tracking-widest text-orange-500 hover:text-white transition-colors opacity-80 hover:opacity-100" href="#">Subscribe</a>
+        </div>
+        <div class="font-sans text-xs uppercase tracking-widest text-white/60">
+            © 2024 The Editorialist. Designed for impact.
+        </div>
     </footer>
 
-    <!-- ================= 弹窗模态框 ================= -->
-    <dialog id="module-modal">
-        <!-- 弹窗也做成撕纸手绘风格 -->
-        <article class="paper-modal">
-            <header>
-                <a href="#close" aria-label="Close" class="close" onclick="closeModal()"></a>
-                <h3 id="modal-title" class="hand-title">模块标题</h3>
-                <button class="uiverse-btn small" onclick="toggleView()">
-                    <span class="text">🔄 切换视图</span>
-                </button>
-            </header>
-            <div id="article-list" class="view-list"></div>
-        </article>
-    </dialog>
+    <div class="hidden lg:flex fixed right-8 top-1/2 -translate-y-1/2 flex-col space-y-4 z-40">
+        <div class="w-2 h-2 rounded-full bg-secondary"></div>
+        <div class="w-2 h-2 rounded-full bg-outline-variant hover:bg-secondary-fixed transition-colors cursor-pointer"></div>
+        <div class="w-2 h-2 rounded-full bg-outline-variant hover:bg-secondary-fixed transition-colors cursor-pointer"></div>
+        <div class="w-2 h-2 rounded-full bg-outline-variant hover:bg-secondary-fixed transition-colors cursor-pointer"></div>
+    </div>
 
-    <script src="./js/home.js"></script>
+    <!-- 5. 引入你的主逻辑 JS -->
+    <script type="module" src="./js/main.js"></script>
+
 </body>
 </html>

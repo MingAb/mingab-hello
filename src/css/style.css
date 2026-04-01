@@ -1,0 +1,12 @@
+/* src/css/style.css */
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+.cut-out-frame {
+    clip-path: polygon(10% 0, 100% 0%, 90% 100%, 0% 100%);
+}
+
+body {
+    overflow: hidden;
+}
