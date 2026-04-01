@@ -1,194 +1,173 @@
 <!DOCTYPE html>
-
-<html class="light" lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>The Editorialist | Bold Narrative</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Manrope:wght@200..800&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
+<html class="light" lang="zh-CN">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>极客阿明 | 独立思考与灵感收集</title>
+    
+    <!-- 引入 Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    
+    <!-- 引入英文字体，同时我们将通过 Tailwind 配置兼容中文 -->
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Manrope:wght@200..800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    
+    <script>
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        "tertiary": "#291300",
-                        "on-primary": "#ffffff",
-                        "secondary-fixed-dim": "#ffb5a0",
-                        "secondary": "#ad2c00",
-                        "on-tertiary": "#ffffff",
-                        "on-primary-fixed": "#051944",
-                        "error-container": "#ffdad6",
-                        "surface-container-high": "#e8e8ea",
-                        "surface": "#f9f9fb",
-                        "surface-variant": "#e2e2e4",
-                        "on-background": "#1a1c1d",
-                        "on-secondary-fixed": "#3b0900",
-                        "on-primary-container": "#8393c5",
-                        "inverse-on-surface": "#f0f0f2",
-                        "outline-variant": "#c5c6d0",
-                        "on-surface-variant": "#45464f",
-                        "surface-container-lowest": "#ffffff",
-                        "on-tertiary-container": "#bf895b",
-                        "inverse-primary": "#b5c5f9",
-                        "surface-dim": "#d9dadc",
-                        "surface-container": "#eeeef0",
-                        "secondary-fixed": "#ffdbd1",
-                        "on-tertiary-fixed-variant": "#663d16",
-                        "surface-tint": "#4d5d8b",
-                        "on-secondary-fixed-variant": "#872000",
-                        "on-secondary-container": "#fffbff",
-                        "primary-container": "#1a2b56",
-                        "on-secondary": "#ffffff",
-                        "on-error-container": "#93000a",
-                        "primary-fixed-dim": "#b5c5f9",
-                        "primary": "#021541",
-                        "inverse-surface": "#2f3132",
-                        "tertiary-container": "#472400",
-                        "background": "#f9f9fb",
-                        "surface-bright": "#f9f9fb",
-                        "on-surface": "#1a1c1d",
-                        "on-error": "#ffffff",
-                        "tertiary-fixed": "#ffdcc1",
-                        "tertiary-fixed-dim": "#f6ba88",
-                        "on-tertiary-fixed": "#2e1500",
-                        "primary-fixed": "#dae1ff",
-                        "on-primary-fixed-variant": "#354572",
-                        "outline": "#757680",
-                        "secondary-container": "#d83900",
-                        "surface-container-low": "#f3f3f5",
-                        "surface-container-highest": "#e2e2e4",
-                        "error": "#ba1a1a"
+                        "tertiary": "#291300", "on-primary": "#ffffff", "secondary-fixed-dim": "#ffb5a0",
+                        "secondary": "#ad2c00", "on-tertiary": "#ffffff", "on-primary-fixed": "#051944",
+                        "error-container": "#ffdad6", "surface-container-high": "#e8e8ea", "surface": "#f9f9fb",
+                        "surface-variant": "#e2e2e4", "on-background": "#1a1c1d", "on-secondary-fixed": "#3b0900",
+                        "on-primary-container": "#8393c5", "inverse-on-surface": "#f0f0f2", "outline-variant": "#c5c6d0",
+                        "on-surface-variant": "#45464f", "surface-container-lowest": "#ffffff", "on-tertiary-container": "#bf895b",
+                        "inverse-primary": "#b5c5f9", "surface-dim": "#d9dadc", "surface-container": "#eeeef0",
+                        "secondary-fixed": "#ffdbd1", "on-tertiary-fixed-variant": "#663d16", "surface-tint": "#4d5d8b",
+                        "on-secondary-fixed-variant": "#872000", "on-secondary-container": "#fffbff", "primary-container": "#1a2b56",
+                        "on-secondary": "#ffffff", "on-error-container": "#93000a", "primary-fixed-dim": "#b5c5f9",
+                        "primary": "#021541", "inverse-surface": "#2f3132", "tertiary-container": "#472400",
+                        "background": "#f9f9fb", "surface-bright": "#f9f9fb", "on-surface": "#1a1c1d",
+                        "on-error": "#ffffff", "tertiary-fixed": "#ffdcc1", "tertiary-fixed-dim": "#f6ba88",
+                        "on-tertiary-fixed": "#2e1500", "primary-fixed": "#dae1ff", "on-primary-fixed-variant": "#354572",
+                        "outline": "#757680", "secondary-container": "#d83900", "surface-container-low": "#f3f3f5",
+                        "surface-container-highest": "#e2e2e4", "error": "#ba1a1a"
                     },
                     fontFamily: {
-                        "headline": ["Newsreader", "serif"],
-                        "body": ["Manrope", "sans-serif"],
-                        "label": ["Manrope", "sans-serif"]
+                        /* 修改：加入中文衬线字体（宋体/明朝体），让中文看起来像高级杂志 */
+                        "headline": ["Newsreader", "Noto Serif SC", "STSong", "serif"],
+                        /* 修改：加入中文无衬线字体（黑体） */
+                        "body": ["Manrope", "PingFang SC", "Microsoft YaHei", "sans-serif"],
+                        "label": ["Manrope", "PingFang SC", "sans-serif"]
                     },
                     borderRadius: { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" },
                 },
             },
         }
     </script>
-<style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-        .cut-out-frame {
-            clip-path: polygon(10% 0, 100% 0%, 90% 100%, 0% 100%);
-        }
-        body {
-            overflow: hidden;
-        }
+    <style>
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .cut-out-frame { clip-path: polygon(10% 0, 100% 0%, 90% 100%, 0% 100%); }
+        body { overflow: hidden; } /* 如果你以后文章变长需要上下滑动，请把这行删掉！ */
     </style>
 </head>
 <body class="bg-surface text-on-surface font-body selection:bg-secondary-fixed selection:text-secondary">
-<!-- Top Navigation Shell -->
-<nav class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md flex justify-between items-center px-8 py-4 max-w-full mx-auto shadow-sm dark:shadow-none">
-<div class="text-2xl font-black text-blue-950 dark:text-white uppercase tracking-widest font-headline">
-            The Editorialist
+
+    <!-- ========== 顶部导航栏 ========== -->
+    <nav class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md flex justify-between items-center px-8 py-4 max-w-full mx-auto shadow-sm dark:shadow-none">
+        <!-- 左侧 Logo -->
+        <div class="text-2xl font-black text-blue-950 dark:text-white uppercase tracking-widest font-headline">
+            极客阿明
         </div>
-<div class="hidden md:flex items-center space-x-10">
-<a class="text-orange-700 dark:text-orange-500 font-bold border-b-2 border-orange-700 pb-1 font-serif text-lg tracking-tight" href="#">Features</a>
-<a class="text-slate-600 dark:text-slate-400 hover:text-blue-900 transition-colors font-serif text-lg tracking-tight" href="#">Archive</a>
-<a class="text-slate-600 dark:text-slate-400 hover:text-blue-900 transition-colors font-serif text-lg tracking-tight" href="#">Essays</a>
-<a class="text-slate-600 dark:text-slate-400 hover:text-blue-900 transition-colors font-serif text-lg tracking-tight" href="#">About</a>
-</div>
-<div class="flex items-center space-x-4">
-<button class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-300 rounded-full flex items-center justify-center">
-<span class="material-symbols-outlined text-blue-900 dark:text-blue-200" data-icon="dark_mode">dark_mode</span>
-</button>
-</div>
-</nav>
-<!-- Progress Indicator (Top of Screen) -->
-<div class="fixed top-0 left-0 w-1/3 h-1 bg-secondary z-[60]"></div>
-<!-- Main Hero Canvas (Single Screen) -->
-<main class="h-screen w-full flex flex-col md:flex-row items-center justify-center px-6 md:px-20 pt-20 overflow-hidden bg-surface relative">
-<!-- Decorative Background Element -->
-<div class="absolute -top-20 -left-20 w-96 h-96 bg-secondary-fixed/20 rounded-full blur-3xl opacity-50"></div>
-<div class="absolute -bottom-20 -right-20 w-96 h-96 bg-primary-fixed/20 rounded-full blur-3xl opacity-50"></div>
-<!-- Left Navigation Arrow (Desktop) -->
-<button class="hidden md:flex absolute left-8 z-40 w-14 h-14 items-center justify-center rounded-full bg-surface-container-lowest text-primary hover:bg-secondary hover:text-white transition-all duration-300 shadow-xl shadow-primary/5 active:scale-95">
-<span class="material-symbols-outlined text-3xl" data-icon="arrow_back_ios_new">arrow_back_ios_new</span>
-</button>
-<!-- Hero Content Section -->
-<div class="flex flex-col md:flex-row items-center w-full max-w-7xl mx-auto gap-12 md:gap-24">
-<!-- Headline & Description -->
-<div class="w-full md:w-1/2 flex flex-col items-start text-left space-y-6 order-2 md:order-1">
-<div class="flex items-center space-x-3 mb-2">
-<span class="h-px w-12 bg-secondary"></span>
-<span class="font-label text-xs uppercase tracking-[0.3em] text-secondary font-bold">Issue No. 042</span>
-</div>
-<h1 class="font-headline text-5xl md:text-7xl lg:text-8xl text-primary dark:text-on-surface leading-[0.95] tracking-tighter">
-                    The Silent <br/> <span class="italic text-secondary">Renaissance.</span>
-</h1>
-<p class="font-body text-lg md:text-xl text-on-surface-variant max-w-lg leading-relaxed">
-                    Exploring the intersection of brutalist architecture and organic minimalism in the heart of the Mediterranean. A curated visual essay on form and silence.
+        <!-- 中间链接区：你可以把 href="#" 改成你其他的页面链接 -->
+        <div class="hidden md:flex items-center space-x-10">
+            <a class="text-orange-700 dark:text-orange-500 font-bold border-b-2 border-orange-700 pb-1 font-serif text-lg tracking-tight" href="#">最新灵感</a>
+            <a class="text-slate-600 dark:text-slate-400 hover:text-blue-900 transition-colors font-serif text-lg tracking-tight" href="#">技术折腾</a>
+            <a class="text-slate-600 dark:text-slate-400 hover:text-blue-900 transition-colors font-serif text-lg tracking-tight" href="#">作品集</a>
+            <a class="text-slate-600 dark:text-slate-400 hover:text-blue-900 transition-colors font-serif text-lg tracking-tight" href="#">关于我</a>
+        </div>
+        <!-- 右侧黑夜模式按钮 -->
+        <div class="flex items-center space-x-4">
+            <button class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-300 rounded-full flex items-center justify-center">
+                <span class="material-symbols-outlined text-blue-900 dark:text-blue-200" data-icon="dark_mode">dark_mode</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- 顶部的装饰进度条 -->
+    <div class="fixed top-0 left-0 w-1/3 h-1 bg-secondary z-[60]"></div>
+
+    <!-- ========== 核心视觉区 (Hero Canvas) ========== -->
+    <main class="h-screen w-full flex flex-col md:flex-row items-center justify-center px-6 md:px-20 pt-20 overflow-hidden bg-surface relative">
+        <!-- 模糊的光效背景 -->
+        <div class="absolute -top-20 -left-20 w-96 h-96 bg-secondary-fixed/20 rounded-full blur-3xl opacity-50"></div>
+        <div class="absolute -bottom-20 -right-20 w-96 h-96 bg-primary-fixed/20 rounded-full blur-3xl opacity-50"></div>
+        
+        <button class="hidden md:flex absolute left-8 z-40 w-14 h-14 items-center justify-center rounded-full bg-surface-container-lowest text-primary hover:bg-secondary hover:text-white transition-all duration-300 shadow-xl shadow-primary/5 active:scale-95">
+            <span class="material-symbols-outlined text-3xl" data-icon="arrow_back_ios_new">arrow_back_ios_new</span>
+        </button>
+
+        <div class="flex flex-col md:flex-row items-center w-full max-w-7xl mx-auto gap-12 md:gap-24">
+            
+            <!-- 左侧：文字介绍区 -->
+            <div class="w-full md:w-1/2 flex flex-col items-start text-left space-y-6 order-2 md:order-1">
+                <div class="flex items-center space-x-3 mb-2">
+                    <span class="h-px w-12 bg-secondary"></span>
+                    <span class="font-label text-xs uppercase tracking-[0.3em] text-secondary font-bold">Vol. 001 创刊号</span>
+                </div>
+                
+                <!-- 大标题 -->
+                <h1 class="font-headline text-5xl md:text-7xl lg:text-8xl text-primary dark:text-on-surface leading-[0.95] tracking-tighter">
+                    代码与 <br/> <span class="italic text-secondary">诗歌.</span>
+                </h1>
+                
+                <!-- 简介描述 -->
+                <p class="font-body text-lg md:text-xl text-on-surface-variant max-w-lg leading-relaxed">
+                    在这里记录技术探索、网页实验室以及偶尔的胡思乱想。一次对极简主义与前端工程化的视觉探索。
                 </p>
-<div class="flex flex-col sm:flex-row items-start sm:items-center gap-6 pt-6">
-<button class="bg-secondary-container text-on-secondary px-8 py-4 rounded-md font-label uppercase tracking-widest text-sm font-bold hover:brightness-105 transition-all active:scale-95 shadow-lg shadow-secondary/20">
-                        Read Feature
-                    </button>
-<button class="group flex items-center space-x-2 py-4 text-primary font-bold font-label uppercase tracking-widest text-sm relative overflow-hidden">
-<span>View Gallery</span>
-<span class="material-symbols-outlined text-secondary transition-transform group-hover:translate-x-1" data-icon="arrow_right_alt">arrow_right_alt</span>
-<span class="absolute bottom-3 left-0 w-full h-[2px] bg-secondary scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
-</button>
-</div>
-</div>
-<!-- Image Container -->
-<div class="w-full md:w-1/2 flex justify-center items-center order-1 md:order-2 relative group">
-<!-- Stylized Frame Container -->
-<div class="relative w-72 h-[450px] md:w-[450px] md:h-[600px] overflow-hidden rounded-xl surface-container-highest shadow-2xl group-hover:[transform:none!important]" style="perspective: 1000px; transform: rotateX(5deg) rotateY(-15deg) rotateZ(-2deg); transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);">
-<!-- Floating Badge -->
-<div class="absolute top-6 left-6 z-10 bg-white/90 backdrop-blur px-4 py-2 rounded-full shadow-lg">
-<span class="font-label text-[10px] font-black uppercase tracking-widest text-primary">Limited Edition</span>
-</div>
-<!-- Hero Image with Editorial Mask -->
-<img alt="Editorial feature" class="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-700 ease-out grayscale hover:grayscale-0" data-alt="Monochromatic high-contrast architectural shot of a brutalist concrete staircase with sharp shadows and minimalist aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCF-Q2DPcM1HEO-gxSZAcnFeUHT0ytHx6_FRi1daHWo1Yq3YGEQvX0ZUJTiNAUd6-UTrnSJVioERENS3T2bStAqsu_LiQyn0dVeD9nocpFbHZFAQQDsg37xDNToKL9SiixmcX-csKvXzxK4-3sN-QrDO8muRWwwo6JXhuzoiZukGfSVLZc-cLtGFvuF4MB72By5P9U4OjL2mC-2jdVxBvTsMm5xyFBIyqqG_vdcSQ3mfRCs3xuoGOKKlIOKtSrN0LRxuONDqcmEPHMl"/>
-<!-- Decorative Overlay -->
-<div class="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent opacity-60"></div>
-</div>
-<!-- Subtle Decorative Accents -->
-<div class="absolute -z-10 top-12 -right-8 w-full h-full border-4 border-secondary-fixed-dim rounded-xl opacity-20 hidden md:block"></div>
-<div class="absolute -bottom-6 -left-6 font-headline text-9xl text-surface-container opacity-20 select-none hidden md:block">01</div>
-</div>
-</div>
-<!-- Right Navigation Arrow (Desktop) -->
-<button class="hidden md:flex absolute right-8 z-40 w-14 h-14 items-center justify-center rounded-full bg-surface-container-lowest text-primary hover:bg-secondary hover:text-white transition-all duration-300 shadow-xl shadow-primary/5 active:scale-95">
-<span class="material-symbols-outlined text-3xl" data-icon="arrow_forward_ios">arrow_forward_ios</span>
-</button>
-<!-- Mobile Navigation Arrows (Bottom) -->
-<div class="md:hidden flex space-x-4 mt-8 pb-10">
-<button class="w-12 h-12 flex items-center justify-center rounded-full bg-surface-container-high text-primary active:bg-secondary active:text-white transition-colors">
-<span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span>
-</button>
-<button class="w-12 h-12 flex items-center justify-center rounded-full bg-surface-container-high text-primary active:bg-secondary active:text-white transition-colors">
-<span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
-</button>
-</div>
-</main>
-<!-- Footer Shell -->
-<footer class="fixed bottom-0 w-full z-40 bg-blue-950 dark:bg-black text-white flex flex-col md:flex-row justify-between items-center px-12 py-4">
-<div class="font-serif italic text-white text-sm">
-            The Editorialist.
+                
+                <!-- 按钮区：把原来的 button 换成了 a 标签，方便你做跳转链接 -->
+                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6 pt-6">
+                    <!-- 改这里 href 的网址！ -->
+                    <a href="/article.html?id=hello-world" class="bg-secondary-container text-on-secondary px-8 py-4 rounded-md font-label uppercase tracking-widest text-sm font-bold hover:brightness-105 transition-all active:scale-95 shadow-lg shadow-secondary/20 block text-center">
+                        阅读精选文章
+                    </a>
+                    <!-- 改这里 href 的网址！ -->
+                    <a href="/portfolio.html" class="group flex items-center space-x-2 py-4 text-primary font-bold font-label uppercase tracking-widest text-sm relative overflow-hidden block">
+                        <span>浏览作品集</span>
+                        <span class="material-symbols-outlined text-secondary transition-transform group-hover:translate-x-1" data-icon="arrow_right_alt">arrow_right_alt</span>
+                        <span class="absolute bottom-3 left-0 w-full h-[2px] bg-secondary scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 右侧：图片配图区 -->
+            <div class="w-full md:w-1/2 flex justify-center items-center order-1 md:order-2 relative group">
+                <div class="relative w-72 h-[450px] md:w-[450px] md:h-[600px] overflow-hidden rounded-xl surface-container-highest shadow-2xl group-hover:[transform:none!important]" style="perspective: 1000px; transform: rotateX(5deg) rotateY(-15deg) rotateZ(-2deg); transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);">
+                    
+                    <!-- 图片角标 -->
+                    <div class="absolute top-6 left-6 z-10 bg-white/90 backdrop-blur px-4 py-2 rounded-full shadow-lg">
+                        <span class="font-label text-[10px] font-black uppercase tracking-widest text-primary">极客独家</span>
+                    </div>
+                    
+                    <!-- 你的主视觉图片：你可以把 src 里面的网址换成你自己的图片链接！ -->
+                    <img alt="主视觉图" class="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-700 ease-out grayscale hover:grayscale-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCF-Q2DPcM1HEO-gxSZAcnFeUHT0ytHx6_FRi1daHWo1Yq3YGEQvX0ZUJTiNAUd6-UTrnSJVioERENS3T2bStAqsu_LiQyn0dVeD9nocpFbHZFAQQDsg37xDNToKL9SiixmcX-csKvXzxK4-3sN-QrDO8muRWwwo6JXhuzoiZukGfSVLZc-cLtGFvuF4MB72By5P9U4OjL2mC-2jdVxBvTsMm5xyFBIyqqG_vdcSQ3mfRCs3xuoGOKKlIOKtSrN0LRxuONDqcmEPHMl"/>
+                    <div class="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent opacity-60"></div>
+                </div>
+                <!-- 右下角的巨大半透明数字 01 -->
+                <div class="absolute -bottom-6 -left-6 font-headline text-9xl text-surface-container opacity-20 select-none hidden md:block">01</div>
+            </div>
         </div>
-<div class="flex space-x-8 my-2 md:my-0">
-<a class="font-sans text-xs uppercase tracking-widest text-slate-400 hover:text-white transition-colors opacity-80 hover:opacity-100" href="#">Privacy</a>
-<a class="font-sans text-xs uppercase tracking-widest text-slate-400 hover:text-white transition-colors opacity-80 hover:opacity-100" href="#">Terms</a>
-<a class="font-sans text-xs uppercase tracking-widest text-orange-500 hover:text-white transition-colors opacity-80 hover:opacity-100" href="#">Subscribe</a>
-</div>
-<div class="font-sans text-xs uppercase tracking-widest text-white/60">
-            © 2024 The Editorialist. Designed for impact.
+
+        <button class="hidden md:flex absolute right-8 z-40 w-14 h-14 items-center justify-center rounded-full bg-surface-container-lowest text-primary hover:bg-secondary hover:text-white transition-all duration-300 shadow-xl shadow-primary/5 active:scale-95">
+            <span class="material-symbols-outlined text-3xl" data-icon="arrow_forward_ios">arrow_forward_ios</span>
+        </button>
+    </main>
+
+    <!-- ========== 底部栏 ========== -->
+    <footer class="fixed bottom-0 w-full z-40 bg-blue-950 dark:bg-black text-white flex flex-col md:flex-row justify-between items-center px-12 py-4">
+        <div class="font-serif italic text-white text-sm">
+            极客阿明.
         </div>
-</footer>
-<!-- Progress Dots (Side Indicator) -->
-<div class="hidden lg:flex fixed right-8 top-1/2 -translate-y-1/2 flex-col space-y-4 z-40">
-<div class="w-2 h-2 rounded-full bg-secondary"></div>
-<div class="w-2 h-2 rounded-full bg-outline-variant hover:bg-secondary-fixed transition-colors cursor-pointer"></div>
-<div class="w-2 h-2 rounded-full bg-outline-variant hover:bg-secondary-fixed transition-colors cursor-pointer"></div>
-<div class="w-2 h-2 rounded-full bg-outline-variant hover:bg-secondary-fixed transition-colors cursor-pointer"></div>
-</div>
-</body></html>
+        <div class="flex space-x-8 my-2 md:my-0">
+            <!-- 底部的链接，也可以换 href -->
+            <a class="font-sans text-xs uppercase tracking-widest text-slate-400 hover:text-white transition-colors opacity-80 hover:opacity-100" href="#">个人主页</a>
+            <a class="font-sans text-xs uppercase tracking-widest text-slate-400 hover:text-white transition-colors opacity-80 hover:opacity-100" href="#">关于开源</a>
+            <a class="font-sans text-xs uppercase tracking-widest text-orange-500 hover:text-white transition-colors opacity-80 hover:opacity-100" href="#">联系我</a>
+        </div>
+        <div class="font-sans text-xs uppercase tracking-widest text-white/60">
+            © 2024 极客阿明. 用键盘敲击世界.
+        </div>
+    </footer>
+
+    <!-- 右侧居中的装饰性原点 -->
+    <div class="hidden lg:flex fixed right-8 top-1/2 -translate-y-1/2 flex-col space-y-4 z-40">
+        <div class="w-2 h-2 rounded-full bg-secondary"></div>
+        <div class="w-2 h-2 rounded-full bg-outline-variant hover:bg-secondary-fixed transition-colors cursor-pointer"></div>
+        <div class="w-2 h-2 rounded-full bg-outline-variant hover:bg-secondary-fixed transition-colors cursor-pointer"></div>
+        <div class="w-2 h-2 rounded-full bg-outline-variant hover:bg-secondary-fixed transition-colors cursor-pointer"></div>
+    </div>
+</body>
+</html>
