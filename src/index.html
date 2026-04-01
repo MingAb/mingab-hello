@@ -8,166 +8,283 @@
     <!-- 引入 Tailwind CDN -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     
-    <!-- 引入英文字体，同时我们将通过 Tailwind 配置兼容中文 -->
+    <!-- 引入谷歌字体和图标 -->
     <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Manrope:wght@200..800&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     
     <script>
         tailwind.config = {
-            darkMode: "class",
+            darkMode: "class", // 开启基于 class 的暗黑模式
             theme: {
                 extend: {
                     colors: {
-                        "tertiary": "#291300", "on-primary": "#ffffff", "secondary-fixed-dim": "#ffb5a0",
-                        "secondary": "#ad2c00", "on-tertiary": "#ffffff", "on-primary-fixed": "#051944",
-                        "error-container": "#ffdad6", "surface-container-high": "#e8e8ea", "surface": "#f9f9fb",
-                        "surface-variant": "#e2e2e4", "on-background": "#1a1c1d", "on-secondary-fixed": "#3b0900",
-                        "on-primary-container": "#8393c5", "inverse-on-surface": "#f0f0f2", "outline-variant": "#c5c6d0",
-                        "on-surface-variant": "#45464f", "surface-container-lowest": "#ffffff", "on-tertiary-container": "#bf895b",
-                        "inverse-primary": "#b5c5f9", "surface-dim": "#d9dadc", "surface-container": "#eeeef0",
-                        "secondary-fixed": "#ffdbd1", "on-tertiary-fixed-variant": "#663d16", "surface-tint": "#4d5d8b",
-                        "on-secondary-fixed-variant": "#872000", "on-secondary-container": "#fffbff", "primary-container": "#1a2b56",
-                        "on-secondary": "#ffffff", "on-error-container": "#93000a", "primary-fixed-dim": "#b5c5f9",
-                        "primary": "#021541", "inverse-surface": "#2f3132", "tertiary-container": "#472400",
-                        "background": "#f9f9fb", "surface-bright": "#f9f9fb", "on-surface": "#1a1c1d",
-                        "on-error": "#ffffff", "tertiary-fixed": "#ffdcc1", "tertiary-fixed-dim": "#f6ba88",
-                        "on-tertiary-fixed": "#2e1500", "primary-fixed": "#dae1ff", "on-primary-fixed-variant": "#354572",
-                        "outline": "#757680", "secondary-container": "#d83900", "surface-container-low": "#f3f3f5",
-                        "surface-container-highest": "#e2e2e4", "error": "#ba1a1a"
+                        "secondary": "#ad2c00", "secondary-fixed-dim": "#ffb5a0", "secondary-fixed": "#ffdbd1",
+                        "primary": "#021541", "primary-fixed": "#dae1ff",
+                        "surface": "#f9f9fb", "on-surface": "#1a1c1d", "surface-variant": "#e2e2e4",
+                        "on-surface-variant": "#45464f", "outline-variant": "#c5c6d0", "secondary-container": "#d83900",
+                        "on-secondary": "#ffffff", "surface-container-highest": "#e2e2e4", "surface-container-lowest": "#ffffff"
                     },
                     fontFamily: {
-                        /* 修改：加入中文衬线字体（宋体/明朝体），让中文看起来像高级杂志 */
                         "headline": ["Newsreader", "Noto Serif SC", "STSong", "serif"],
-                        /* 修改：加入中文无衬线字体（黑体） */
                         "body": ["Manrope", "PingFang SC", "Microsoft YaHei", "sans-serif"],
                         "label": ["Manrope", "PingFang SC", "sans-serif"]
                     },
-                    borderRadius: { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" },
                 },
             },
         }
     </script>
     <style>
         .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
-        .cut-out-frame { clip-path: polygon(10% 0, 100% 0%, 90% 100%, 0% 100%); }
-        body { overflow: hidden; } /* 如果你以后文章变长需要上下滑动，请把这行删掉！ */
+        /* 平滑过滤动画 */
+        .fade-transition { transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out; }
+        .fade-out { opacity: 0; transform: translateY(10px); }
     </style>
 </head>
-<body class="bg-surface text-on-surface font-body selection:bg-secondary-fixed selection:text-secondary">
+<!-- 加入了 dark:bg-slate-900 和 dark:text-gray-100 实现暗黑模式适配 -->
+<body class="bg-surface dark:bg-slate-900 text-on-surface dark:text-gray-100 font-body transition-colors duration-500 selection:bg-secondary-fixed selection:text-secondary overflow-hidden">
 
     <!-- ========== 顶部导航栏 ========== -->
-    <nav class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md flex justify-between items-center px-8 py-4 max-w-full mx-auto shadow-sm dark:shadow-none">
-        <!-- 左侧 Logo -->
+    <nav class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md flex justify-between items-center px-8 py-4 max-w-full mx-auto shadow-sm dark:shadow-none transition-colors duration-500">
         <div class="text-2xl font-black text-blue-950 dark:text-white uppercase tracking-widest font-headline">
             极客阿明
         </div>
-        <!-- 中间链接区：你可以把 href="#" 改成你其他的页面链接 -->
         <div class="hidden md:flex items-center space-x-10">
-            <a class="text-orange-700 dark:text-orange-500 font-bold border-b-2 border-orange-700 pb-1 font-serif text-lg tracking-tight" href="#">最新灵感</a>
-            <a class="text-slate-600 dark:text-slate-400 hover:text-blue-900 transition-colors font-serif text-lg tracking-tight" href="#">技术折腾</a>
-            <a class="text-slate-600 dark:text-slate-400 hover:text-blue-900 transition-colors font-serif text-lg tracking-tight" href="#">作品集</a>
-            <a class="text-slate-600 dark:text-slate-400 hover:text-blue-900 transition-colors font-serif text-lg tracking-tight" href="#">关于我</a>
+            <a class="text-orange-700 dark:text-orange-500 font-bold border-b-2 border-orange-700 pb-1 font-serif text-lg tracking-tight" href="#">主页展览</a>
+            <a class="text-slate-600 dark:text-slate-400 hover:text-blue-900 dark:hover:text-blue-300 transition-colors font-serif text-lg tracking-tight" href="#">灵感集合</a>
+            <a class="text-slate-600 dark:text-slate-400 hover:text-blue-900 dark:hover:text-blue-300 transition-colors font-serif text-lg tracking-tight" href="#">坐而论道</a>
+            <a class="text-slate-600 dark:text-slate-400 hover:text-blue-900 dark:hover:text-blue-300 transition-colors font-serif text-lg tracking-tight" href="#">关于明</a>
         </div>
-        <!-- 右侧黑夜模式按钮 -->
         <div class="flex items-center space-x-4">
-            <button class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-300 rounded-full flex items-center justify-center">
-                <span class="material-symbols-outlined text-blue-900 dark:text-blue-200" data-icon="dark_mode">dark_mode</span>
+            <!-- 暗黑模式切换按钮 -->
+            <button onclick="toggleDarkMode()" class="p-2 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-300 rounded-full flex items-center justify-center">
+                <span id="theme-icon" class="material-symbols-outlined text-blue-900 dark:text-yellow-400">dark_mode</span>
             </button>
         </div>
     </nav>
 
     <!-- 顶部的装饰进度条 -->
-    <div class="fixed top-0 left-0 w-1/3 h-1 bg-secondary z-[60]"></div>
+    <div class="fixed top-0 left-0 w-1/3 h-1 bg-secondary z-[60] transition-all duration-500" id="progress-bar"></div>
 
-    <!-- ========== 核心视觉区 (Hero Canvas) ========== -->
-    <main class="h-screen w-full flex flex-col md:flex-row items-center justify-center px-6 md:px-20 pt-20 overflow-hidden bg-surface relative">
+    <!-- ========== 核心视觉区 ========== -->
+    <main class="h-screen w-full flex flex-col md:flex-row items-center justify-center px-6 md:px-20 pt-20 relative">
         <!-- 模糊的光效背景 -->
-        <div class="absolute -top-20 -left-20 w-96 h-96 bg-secondary-fixed/20 rounded-full blur-3xl opacity-50"></div>
-        <div class="absolute -bottom-20 -right-20 w-96 h-96 bg-primary-fixed/20 rounded-full blur-3xl opacity-50"></div>
+        <div class="absolute -top-20 -left-20 w-96 h-96 bg-secondary-fixed-dim/30 dark:bg-secondary-fixed-dim/10 rounded-full blur-3xl opacity-50"></div>
+        <div class="absolute -bottom-20 -right-20 w-96 h-96 bg-primary-fixed/40 dark:bg-primary-fixed/10 rounded-full blur-3xl opacity-50"></div>
         
-        <button class="hidden md:flex absolute left-8 z-40 w-14 h-14 items-center justify-center rounded-full bg-surface-container-lowest text-primary hover:bg-secondary hover:text-white transition-all duration-300 shadow-xl shadow-primary/5 active:scale-95">
-            <span class="material-symbols-outlined text-3xl" data-icon="arrow_back_ios_new">arrow_back_ios_new</span>
+        <!-- 左侧切换按钮 (电脑端) -->
+        <button onclick="changeProject(-1)" class="hidden md:flex absolute left-8 z-40 w-14 h-14 items-center justify-center rounded-full bg-white dark:bg-slate-800 text-primary dark:text-white hover:bg-secondary hover:text-white transition-all duration-300 shadow-xl active:scale-95">
+            <span class="material-symbols-outlined text-3xl">arrow_back_ios_new</span>
         </button>
 
         <div class="flex flex-col md:flex-row items-center w-full max-w-7xl mx-auto gap-12 md:gap-24">
             
-            <!-- 左侧：文字介绍区 -->
-            <div class="w-full md:w-1/2 flex flex-col items-start text-left space-y-6 order-2 md:order-1">
+            <!-- ====== 左侧：文字介绍区 (动态更新) ====== -->
+            <div id="text-container" class="w-full md:w-1/2 flex flex-col items-start text-left space-y-6 order-2 md:order-1 fade-transition">
                 <div class="flex items-center space-x-3 mb-2">
                     <span class="h-px w-12 bg-secondary"></span>
-                    <span class="font-label text-xs uppercase tracking-[0.3em] text-secondary font-bold">Vol. 001 创刊号</span>
+                    <span id="proj-tag" class="font-label text-xs uppercase tracking-[0.3em] text-secondary dark:text-orange-400 font-bold">Vol. 001 创刊号</span>
                 </div>
                 
-                <!-- 大标题 -->
-                <h1 class="font-headline text-5xl md:text-7xl lg:text-8xl text-primary dark:text-on-surface leading-[0.95] tracking-tighter">
-                    代码与 <br/> <span class="italic text-secondary">诗歌.</span>
+                <h1 id="proj-title" class="font-headline text-5xl md:text-7xl lg:text-8xl text-primary dark:text-white leading-[0.95] tracking-tighter transition-colors">
+                    代码与 <br/> <span class="italic text-secondary dark:text-orange-500">诗歌.</span>
                 </h1>
                 
-                <!-- 简介描述 -->
-                <p class="font-body text-lg md:text-xl text-on-surface-variant max-w-lg leading-relaxed">
-                    在这里记录技术探索、网页实验室以及偶尔的胡思乱想。一次对极简主义与前端工程化的视觉探索。
+                <p id="proj-desc" class="font-body text-lg md:text-xl text-on-surface-variant dark:text-gray-300 max-w-lg leading-relaxed transition-colors">
+                    在这个网页里记录技术、创新实验以及偶尔的胡思乱想。一次对极简主义与复杂思想的碰撞。
                 </p>
                 
-                <!-- 按钮区：把原来的 button 换成了 a 标签，方便你做跳转链接 -->
                 <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6 pt-6">
-                    <!-- 改这里 href 的网址！ -->
-                    <a href="/article.html?id=hello-world" class="bg-secondary-container text-on-secondary px-8 py-4 rounded-md font-label uppercase tracking-widest text-sm font-bold hover:brightness-105 transition-all active:scale-95 shadow-lg shadow-secondary/20 block text-center">
-                        阅读精选文章
+                    <a id="proj-link-1" href="#" class="bg-secondary-container dark:bg-orange-700 text-white px-8 py-4 rounded-md font-label uppercase tracking-widest text-sm font-bold hover:brightness-110 transition-all active:scale-95 shadow-lg shadow-secondary/20 block text-center">
+                        阅读详情
                     </a>
-                    <!-- 改这里 href 的网址！ -->
-                    <a href="/portfolio.html" class="group flex items-center space-x-2 py-4 text-primary font-bold font-label uppercase tracking-widest text-sm relative overflow-hidden block">
-                        <span>浏览作品集</span>
-                        <span class="material-symbols-outlined text-secondary transition-transform group-hover:translate-x-1" data-icon="arrow_right_alt">arrow_right_alt</span>
-                        <span class="absolute bottom-3 left-0 w-full h-[2px] bg-secondary scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
+                    <a id="proj-link-2" href="#" class="group flex items-center space-x-2 py-4 text-primary dark:text-gray-200 font-bold font-label uppercase tracking-widest text-sm relative overflow-hidden block">
+                        <span>查看进度</span>
+                        <span class="material-symbols-outlined text-secondary dark:text-orange-400 transition-transform group-hover:translate-x-1">arrow_right_alt</span>
+                        <span class="absolute bottom-3 left-0 w-full h-[2px] bg-secondary dark:bg-orange-400 scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
                     </a>
                 </div>
             </div>
 
-            <!-- 右侧：图片配图区 -->
-            <div class="w-full md:w-1/2 flex justify-center items-center order-1 md:order-2 relative group">
-                <div class="relative w-72 h-[450px] md:w-[450px] md:h-[600px] overflow-hidden rounded-xl surface-container-highest shadow-2xl group-hover:[transform:none!important]" style="perspective: 1000px; transform: rotateX(5deg) rotateY(-15deg) rotateZ(-2deg); transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);">
-                    
-                    <!-- 图片角标 -->
-                    <div class="absolute top-6 left-6 z-10 bg-white/90 backdrop-blur px-4 py-2 rounded-full shadow-lg">
-                        <span class="font-label text-[10px] font-black uppercase tracking-widest text-primary">极客独家</span>
+            <!-- ====== 右侧：3D 图片特效区 ====== -->
+            <div class="w-full md:w-1/2 flex justify-center items-center order-1 md:order-2 relative group fade-transition" id="img-container">
+                
+                <!-- 🌟 核心 3D 容器设置 perspective -->
+                <div style="perspective: 1200px;">
+                    <!-- 🌟 图片包装器：默认向内倾斜 (rotateY) 且逆时针旋转 (rotateZ)，悬停时回正并放大 -->
+                    <!-- 注意：尺寸变小了，去掉了边框，加了浓重的黑阴影 -->
+                    <div class="relative w-64 h-[350px] md:w-[340px] md:h-[480px] rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.8)] transition-all duration-700 ease-out [transform:rotateY(15deg)_rotateZ(-4deg)] group-hover:[transform:rotateY(0deg)_rotateZ(0deg)_scale(1.05)] cursor-pointer">
+                        
+                        <!-- 角标 -->
+                        <div class="absolute top-4 left-4 z-10 bg-white/90 dark:bg-black/80 backdrop-blur px-4 py-2 rounded-full shadow-lg transition-colors">
+                            <span class="font-label text-[10px] font-black uppercase tracking-widest text-primary dark:text-white">精选集</span>
+                        </div>
+                        
+                        <!-- 图片本体 -->
+                        <img id="proj-img" alt="主视觉图" class="w-full h-full object-cover rounded-xl grayscale hover:grayscale-0 transition-all duration-700" src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=800&auto=format&fit=crop"/>
+                        
+                        <!-- 黑色质感遮罩 -->
+                        <div class="absolute inset-0 bg-black/10 rounded-xl group-hover:bg-transparent transition-colors duration-700"></div>
                     </div>
-                    
-                    <!-- 你的主视觉图片：你可以把 src 里面的网址换成你自己的图片链接！ -->
-                    <img alt="主视觉图" class="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-700 ease-out grayscale hover:grayscale-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCF-Q2DPcM1HEO-gxSZAcnFeUHT0ytHx6_FRi1daHWo1Yq3YGEQvX0ZUJTiNAUd6-UTrnSJVioERENS3T2bStAqsu_LiQyn0dVeD9nocpFbHZFAQQDsg37xDNToKL9SiixmcX-csKvXzxK4-3sN-QrDO8muRWwwo6JXhuzoiZukGfSVLZc-cLtGFvuF4MB72By5P9U4OjL2mC-2jdVxBvTsMm5xyFBIyqqG_vdcSQ3mfRCs3xuoGOKKlIOKtSrN0LRxuONDqcmEPHMl"/>
-                    <div class="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent opacity-60"></div>
                 </div>
-                <!-- 右下角的巨大半透明数字 01 -->
-                <div class="absolute -bottom-6 -left-6 font-headline text-9xl text-surface-container opacity-20 select-none hidden md:block">01</div>
+
+                <!-- 右下角巨大数字背景 -->
+                <div id="proj-num" class="absolute -bottom-10 -left-10 font-headline text-[10rem] text-surface-variant dark:text-slate-800 opacity-40 select-none hidden md:block transition-colors duration-500 z-[-1]">01</div>
             </div>
         </div>
 
-        <button class="hidden md:flex absolute right-8 z-40 w-14 h-14 items-center justify-center rounded-full bg-surface-container-lowest text-primary hover:bg-secondary hover:text-white transition-all duration-300 shadow-xl shadow-primary/5 active:scale-95">
-            <span class="material-symbols-outlined text-3xl" data-icon="arrow_forward_ios">arrow_forward_ios</span>
+        <!-- 右侧切换按钮 (电脑端) -->
+        <button onclick="changeProject(1)" class="hidden md:flex absolute right-8 z-40 w-14 h-14 items-center justify-center rounded-full bg-white dark:bg-slate-800 text-primary dark:text-white hover:bg-secondary hover:text-white transition-all duration-300 shadow-xl active:scale-95">
+            <span class="material-symbols-outlined text-3xl">arrow_forward_ios</span>
         </button>
+
+        <!-- 手机端底部的左右切换按钮 -->
+        <div class="md:hidden flex space-x-4 mt-8 pb-10 order-3 w-full justify-center">
+            <button onclick="changeProject(-1)" class="w-12 h-12 flex items-center justify-center rounded-full bg-white dark:bg-slate-800 text-primary dark:text-white shadow-md active:bg-secondary active:text-white transition-colors">
+                <span class="material-symbols-outlined">chevron_left</span>
+            </button>
+            <button onclick="changeProject(1)" class="w-12 h-12 flex items-center justify-center rounded-full bg-white dark:bg-slate-800 text-primary dark:text-white shadow-md active:bg-secondary active:text-white transition-colors">
+                <span class="material-symbols-outlined">chevron_right</span>
+            </button>
+        </div>
     </main>
 
     <!-- ========== 底部栏 ========== -->
-    <footer class="fixed bottom-0 w-full z-40 bg-blue-950 dark:bg-black text-white flex flex-col md:flex-row justify-between items-center px-12 py-4">
-        <div class="font-serif italic text-white text-sm">
-            极客阿明.
-        </div>
-        <div class="flex space-x-8 my-2 md:my-0">
-            <!-- 底部的链接，也可以换 href -->
-            <a class="font-sans text-xs uppercase tracking-widest text-slate-400 hover:text-white transition-colors opacity-80 hover:opacity-100" href="#">个人主页</a>
-            <a class="font-sans text-xs uppercase tracking-widest text-slate-400 hover:text-white transition-colors opacity-80 hover:opacity-100" href="#">关于开源</a>
-            <a class="font-sans text-xs uppercase tracking-widest text-orange-500 hover:text-white transition-colors opacity-80 hover:opacity-100" href="#">联系我</a>
-        </div>
+    <footer class="fixed bottom-0 w-full z-30 bg-blue-950 dark:bg-black text-white flex flex-col md:flex-row justify-between items-center px-12 py-4 transition-colors duration-500">
+        <div class="font-serif italic text-white text-sm hidden md:block">极客阿明.</div>
         <div class="font-sans text-xs uppercase tracking-widest text-white/60">
-            © 2024 极客阿明. 用键盘敲击世界.
+            © 2026 极客阿明. 用键盘敲击世界.
         </div>
     </footer>
 
-    <!-- 右侧居中的装饰性原点 -->
-    <div class="hidden lg:flex fixed right-8 top-1/2 -translate-y-1/2 flex-col space-y-4 z-40">
-        <div class="w-2 h-2 rounded-full bg-secondary"></div>
-        <div class="w-2 h-2 rounded-full bg-outline-variant hover:bg-secondary-fixed transition-colors cursor-pointer"></div>
-        <div class="w-2 h-2 rounded-full bg-outline-variant hover:bg-secondary-fixed transition-colors cursor-pointer"></div>
-        <div class="w-2 h-2 rounded-full bg-outline-variant hover:bg-secondary-fixed transition-colors cursor-pointer"></div>
+    <!-- ========== 右下角四点导航 (指示器) ========== -->
+    <!-- 移动到了右下角，水平排列 -->
+    <div class="fixed right-8 md:right-12 bottom-20 md:bottom-24 flex space-x-3 z-40" id="dots-container">
+        <!-- JS 会自动生成这些点 -->
     </div>
+
+    <!-- ================= JS 逻辑控制区 ================= -->
+    <script>
+        // 🌟 1. 黑暗模式切换逻辑
+        const htmlElement = document.documentElement;
+        const themeIcon = document.getElementById('theme-icon');
+
+        function toggleDarkMode() {
+            if (htmlElement.classList.contains('dark')) {
+                htmlElement.classList.remove('dark');
+                themeIcon.innerText = 'dark_mode'; // 变回月亮图标
+                themeIcon.classList.remove('text-yellow-400');
+            } else {
+                htmlElement.classList.add('dark');
+                themeIcon.innerText = 'light_mode'; // 变成太阳图标
+                themeIcon.classList.add('text-yellow-400');
+            }
+        }
+
+        // 🌟 2. 网站内容数据库 (4个项目的数据)
+        const projects = [
+            {
+                tag: "Vol. 001 创刊号",
+                title: "代码与 <br/> <span class='italic text-secondary dark:text-orange-500'>诗歌.</span>",
+                desc: "在这里记录技术探索、网页实验室以及偶尔的胡思乱想。一次对极简主义与前端工程化的视觉探索。",
+                img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=800&auto=format&fit=crop", // 代码风格配图
+                num: "01"
+            },
+            {
+                tag: "Vol. 002 实验室",
+                title: "创意与 <br/> <span class='italic text-secondary dark:text-orange-500'>设计.</span>",
+                desc: "收集全网最酷的UI交互灵感，将天马行空的设计草图，用原生代码一行行还原成真实的像素。",
+                img: "https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=800&auto=format&fit=crop", // 设计风格配图
+                num: "02"
+            },
+            {
+                tag: "Vol. 003 游乐场",
+                title: "像素与 <br/> <span class='italic text-secondary dark:text-orange-500'>童年.</span>",
+                desc: "复刻经典的网页小游戏，用 Vanilla JS 找回红白机时代的纯粹快乐。方向键准备就绪，按 Start 键开始。",
+                img: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop", // 游戏风格配图
+                num: "03"
+            },
+            {
+                tag: "Vol. 004 随笔集",
+                title: "深夜与 <br/> <span class='italic text-secondary dark:text-orange-500'>咖啡.</span>",
+                desc: "剥离技术的坚硬外壳，记录生活碎片的柔软内核。一些关于读书、旅行和自我成长的杂谈。",
+                img: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop", // 游戏风格配图
+                num: "04"
+            }
+        ];
+
+        let currentIndex = 0;
+
+        // 获取需要更新的 DOM 元素
+        const textContainer = document.getElementById('text-container');
+        const imgContainer = document.getElementById('img-container');
+        const dotsContainer = document.getElementById('dots-container');
+        const progressBar = document.getElementById('progress-bar');
+
+        // 初始化指示器圆点
+        function initDots() {
+            dotsContainer.innerHTML = '';
+            projects.forEach((_, index) => {
+                const dot = document.createElement('div');
+                // 给小圆点加上过渡动画
+                dot.className = `h-2 rounded-full cursor-pointer transition-all duration-500 ${index === 0 ? 'w-8 bg-secondary dark:bg-orange-500' : 'w-2 bg-outline-variant dark:bg-slate-600 hover:bg-secondary-fixed'}`;
+                dot.onclick = () => jumpToProject(index);
+                dotsContainer.appendChild(dot);
+            });
+        }
+
+        // 更新界面内容的函数（带淡入淡出动画）
+        function updateUI() {
+            // 1. 开始淡出动画
+            textContainer.classList.add('fade-out');
+            imgContainer.classList.add('fade-out');
+
+            // 2. 等待淡出动画进行一半时，偷偷换掉文字和图片
+            setTimeout(() => {
+                const p = projects[currentIndex];
+                document.getElementById('proj-tag').innerHTML = p.tag;
+                document.getElementById('proj-title').innerHTML = p.title;
+                document.getElementById('proj-desc').innerHTML = p.desc;
+                document.getElementById('proj-img').src = p.img;
+                document.getElementById('proj-num').innerText = p.num;
+
+                // 更新顶部进度条长度
+                progressBar.style.width = `${((currentIndex + 1) / projects.length) * 100}%`;
+
+                // 更新右下角圆点状态
+                Array.from(dotsContainer.children).forEach((dot, index) => {
+                    if (index === currentIndex) {
+                        dot.className = 'h-2 rounded-full cursor-pointer transition-all duration-500 w-8 bg-secondary dark:bg-orange-500';
+                    } else {
+                        dot.className = 'h-2 rounded-full cursor-pointer transition-all duration-500 w-2 bg-outline-variant dark:bg-slate-600 hover:bg-secondary-fixed';
+                    }
+                });
+
+                // 3. 移除淡出类，开始淡入动画
+                textContainer.classList.remove('fade-out');
+                imgContainer.classList.remove('fade-out');
+            }, 400); // 400毫秒的等待时间
+        }
+
+        // 左右切换逻辑
+        function changeProject(direction) {
+            currentIndex += direction;
+            if (currentIndex < 0) currentIndex = projects.length - 1; // 循环到最后一个
+            if (currentIndex >= projects.length) currentIndex = 0; // 循环到第一个
+            updateUI();
+        }
+
+        // 点击圆点直接跳转逻辑
+        function jumpToProject(index) {
+            if (currentIndex === index) return;
+            currentIndex = index;
+            updateUI();
+        }
+
+        // 页面加载完成后初始化
+        window.onload = () => {
+            initDots();
+            progressBar.style.width = '25%'; // 初始进度25%
+        };
+    </script>
 </body>
 </html>
