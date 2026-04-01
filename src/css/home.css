@@ -1,103 +1,177 @@
-/* 全局应用可爱字体 */
+/* ================= 全局与草稿纸背景 ================= */
 body {
     font-family: 'ZCOOL KuaiLe', cursive, sans-serif;
-    background-color: #fcfcfc;
+    color: #2d3436;
+    /* 核心魔法：手账本网格草稿纸背景 */
+    background-color: #fdfbf7;
+    background-image: 
+        linear-gradient(#e1e1e1 2px, transparent 2px),
+        linear-gradient(90deg, #e1e1e1 2px, transparent 2px);
+    background-size: 30px 30px; /* 格子大小 */
 }
 
-/* 居中标题 */
-.text-center { text-align: center; margin-bottom: 3rem; margin-top: 2rem;}
-.hand-title { font-size: 2.5rem; color: #2d3436; }
+h1, h2, h3 { color: #2d3436; margin-bottom: 0.5rem;}
+.hand-title { letter-spacing: 2px; text-shadow: 2px 2px 0px #ffeaa7; }
 
-/* 响应式网格：电脑2x2，手机自动变1x4 */
-.card-grid {
+/* ================= 布局：左7右3 博客经典排版 ================= */
+.blog-layout {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
+    grid-template-columns: 2.5fr 1fr; /* 左边大，右边小 */
+    gap: 3rem;
+    padding: 3rem 0;
+}
+/* 手机端自动变成上下堆叠 */
+@media (max-width: 768px) {
+    .blog-layout { grid-template-columns: 1fr; }
 }
 
-/* 🌟 核心：手绘风卡片 */
-.hand-card {
-    background-color: var(--card-color);
-    /* 模拟手绘不规则边框 */
-    border: 3px solid #2d3436;
-    border-radius: 2% 95% 4% 95% / 95% 4% 92% 5%;
-    /* 黑色偏移阴影，动漫风拉满 */
-    box-shadow: 6px 6px 0px #2d3436;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
+/* ================= 顶部与底部漫画横幅 ================= */
+.hero-banner, .footer-banner {
+    /* 马克笔高亮背景色 */
+    background: #ffda79;
+    border-bottom: 6px solid #2d3436;
+    padding: 4rem 1rem;
     text-align: center;
-    padding: 2rem;
     position: relative;
-    /* 如果你想用图片做封面，可以取消下面这行的注释并修改路径 */
-    /* background-image: url('../assets/images/cover.jpg'); background-size: cover; */
+    overflow: hidden;
 }
-
-/* 鼠标悬停动画：卡片弹起 */
-.hand-card:hover {
-    transform: translateY(-5px) rotate(-1deg);
-    box-shadow: 10px 10px 0px #2d3436;
+.footer-banner {
+    background: #74b9ff;
+    border-top: 6px solid #2d3436;
+    border-bottom: none;
+    margin-top: 2rem;
 }
-.hand-card h2 { font-size: 3rem; margin-bottom: 0.5rem; }
-.hand-card h3 { color: #2d3436; font-weight: bold; margin: 0;}
+/* 小星星涂鸦动画 */
+.doodle { position: absolute; font-size: 3rem; color: #2d3436; animation: float 3s infinite ease-in-out; }
+.star1 { top: 20%; left: 15%; animation-delay: 0s; }
+.star2 { bottom: 20%; right: 15%; animation-delay: 1s; }
+@keyframes float { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-15px) rotate(15deg); } }
 
-/* 弹窗的手绘风格 */
-.hand-modal {
-    border: 3px solid #2d3436;
-    border-radius: 10px 50px 10px 50px / 50px 10px 50px 10px;
+/* ================= 左侧模块：斜线手绘卡片 (极致手绘感) ================= */
+.grid-2x2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2.5rem;
+}
+.sketch-card {
+    position: relative;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    padding: 0;
+}
+/* 卡片主体 */
+.sketch-card .card-inner {
+    background-color: var(--bg);
+    border: 4px solid #2d3436;
+    border-radius: 8px 25px 8px 25px / 25px 8px 25px 8px; /* 扭曲边框 */
+    padding: 2rem;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    transition: transform 0.2s;
+}
+/* 🌟 核心魔法：卡片背后的斜线马克笔排线涂鸦阴影！ */
+.sketch-card::before {
+    content: "";
+    position: absolute;
+    top: 10px; left: 10px; right: -10px; bottom: -10px;
+    background: repeating-linear-gradient(45deg, #2d3436, #2d3436 3px, transparent 3px, transparent 8px);
+    border: 4px solid #2d3436;
+    border-radius: 8px 25px 8px 25px / 25px 8px 25px 8px;
+    z-index: 1;
+    transition: all 0.2s;
+}
+.sketch-card:hover .card-inner { transform: translate(-5px, -5px); }
+.sketch-card:hover::before { top: 15px; left: 15px; right: -15px; bottom: -15px; }
+
+.icon-wrap { font-size: 4rem; margin-bottom: 1rem; }
+
+/* ================= 右侧侧边栏：UIverse 组件 ================= */
+/* 1. 漫画风个人资料卡 */
+.uiverse-profile-card {
+    background: white;
+    border: 4px solid #2d3436;
     box-shadow: 8px 8px 0px #2d3436;
+    border-radius: 16px;
+    padding: 2rem;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+.uiverse-profile-card .avatar {
+    width: 80px; height: 80px;
+    background: #ffda79;
+    border: 3px solid #2d3436;
+    border-radius: 50%;
+    margin: 0 auto 1rem;
+    font-size: 3rem;
+    line-height: 80px;
+}
+.uiverse-profile-card .stats {
+    display: flex; justify-content: space-around;
+    margin-top: 1.5rem; border-top: 3px dashed #dfe6e9; padding-top: 1rem;
+}
+.uiverse-profile-card .stats strong { display: block; font-size: 1.5rem; }
+
+/* 2. 标签云 */
+.tag-cloud-card {
+    background: white;
+    border: 4px solid #2d3436;
+    box-shadow: 6px 6px 0px #2d3436;
+    padding: 1.5rem;
+    border-radius: 12px;
+}
+.tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 1rem; }
+.tag {
+    background: #a29bfe; color: #2d3436; font-weight: bold;
+    padding: 5px 10px; border: 2px solid #2d3436;
+    border-radius: 20px; box-shadow: 3px 3px 0px #2d3436;
+    cursor: pointer; transition: 0.1s;
+}
+.tag:hover { transform: translateY(-2px); box-shadow: 5px 5px 0px #2d3436; }
+
+/* ================= UIverse 爆款按钮 ================= */
+.uiverse-btn {
+    background: #ff7675; font-family: inherit; font-size: 1.2rem;
+    font-weight: bold; color: white;
+    padding: 0; border: 4px solid #2d3436;
+    border-radius: 12px;
+    cursor: pointer; position: relative;
+    box-shadow: 6px 6px 0px #2d3436;
+    transition: 0.1s; display: inline-block; margin-top: 1.5rem;
+}
+.uiverse-btn .text { display: block; padding: 10px 25px; }
+.uiverse-btn:active { transform: translate(4px, 4px); box-shadow: 2px 2px 0px #2d3436; }
+.uiverse-btn.small { font-size: 1rem; margin-top: 0; background: #55efc4; color: #2d3436;}
+
+/* ================= 模态框与列表视图 (撕纸风) ================= */
+.paper-modal {
+    background: #fff9e6;
+    border: 5px solid #2d3436;
+    border-radius: 2px 255px 3px 25px / 255px 5px 225px 3px; /* 极度扭曲的撕纸效果 */
+    box-shadow: 12px 12px 0px rgba(45,52,54, 0.2);
     max-width: 800px;
 }
 
-/* 切换按钮的手绘风 */
-.toggle-btn {
-    background: transparent;
-    color: #2d3436;
-    border: 2px dashed #2d3436;
-    padding: 5px 15px;
-    border-radius: 20px;
-    cursor: pointer;
-    margin-top: 10px;
-}
-.toggle-btn:hover { background: #ffeaa7; }
-
-/* ==================
-   列表视图与大图标视图
-   ================== */
-/* 默认：图文列表视图 (标题+小图标) */
-.view-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
+/* 列表视图 */
+.view-list { display: flex; flex-direction: column; gap: 1rem; }
 .view-list .item {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 15px;
-    border-bottom: 2px dashed #b2bec3;
-    text-decoration: none;
-    color: #2d3436;
+    display: flex; align-items: center; gap: 15px; padding: 15px;
+    border: 3px dashed #b2bec3; text-decoration: none; color: #2d3436;
+    border-radius: 10px; transition: 0.2s; background: white;
 }
-.view-list .item:hover { background: #f1f2f6; border-radius: 10px; }
-.view-list .item-icon { font-size: 2rem; }
+.view-list .item:hover { background: #ffeaa7; border-color: #2d3436; transform: scale(1.02); }
+.view-list .item-icon { font-size: 2.5rem; }
 
-/* 切换后：大图标网格视图 */
+/* 网格视图 */
 .view-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 1.5rem;
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 1.5rem;
 }
 .view-grid .item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding: 20px 10px;
-    border: 2px solid #2d3436;
-    border-radius: 15px;
-    text-decoration: none;
-    color: #2d3436;
-    transition: transform 0.2s;
+    display: flex; flex-direction: column; align-items: center; text-align: center;
+    padding: 20px 10px; border: 4px solid #2d3436; border-radius: 15px;
+    text-decoration: none; color: #2d3436; transition: 0.2s;
+    background: white; box-shadow: 5px 5px 0px #dfe6e9;
 }
-.view-grid .item:hover { transform: scale(1.05); background: #ffeaa7; }
-.view-grid .item-icon { font-size: 3.5rem; margin-bottom: 10px; }
+.view-grid .item:hover { transform: translateY(-5px); background: #81ecec; box-shadow: 8px 8px 0px #2d3436; }
+.view-grid .item-icon { font-size: 4rem; margin-bottom: 10px; }

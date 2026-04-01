@@ -3,70 +3,117 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>我的奇思妙想小宇宙</title>
-    
-    <!-- 引入 Pico CSS 基础排版 -->
+    <title>我的奇妙手账本</title>
+    <!-- Pico CSS 基础排版 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
-    <!-- 引入可爱的中文字体 -->
+    <!-- 站酷快乐体 (手绘可爱风) -->
     <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
-    <!-- 引入我们专属的手绘风 CSS -->
+    <!-- 专属漫画风 CSS -->
     <link rel="stylesheet" href="./css/home.css">
 </head>
 <body>
-    <main class="container">
-        <!-- 头部欢迎语 -->
-        <header class="hero-section text-center">
-            <h1 class="hand-title">✨ 欢迎来到我的宇宙 ✨</h1>
-            <p>这里收集了我的脑洞、代码和乱七八糟的碎片</p>
-        </header>
 
-        <!-- 四个手绘模块卡片 -->
-        <div class="grid card-grid">
-            <!-- 卡片 1 -->
-            <article class="hand-card" style="--card-color: #ffeaa7;" onclick="openModule('inspiration', '💡 创意灵感')">
-                <div class="card-content">
-                    <h2>💡</h2>
-                    <h3>创意灵感</h3>
-                </div>
-            </article>
-            <!-- 卡片 2 -->
-            <article class="hand-card" style="--card-color: #fab1a0;" onclick="openModule('portfolio', '🎨 作品集合')">
-                <div class="card-content">
-                    <h2>🎨</h2>
-                    <h3>作品集合</h3>
-                </div>
-            </article>
-            <!-- 卡片 3 -->
-            <article class="hand-card" style="--card-color: #74b9ff;" onclick="openModule('skills', '🚀 技能经验')">
-                <div class="card-content">
-                    <h2>🚀</h2>
-                    <h3>技能经验</h3>
-                </div>
-            </article>
-            <!-- 卡片 4 -->
-            <article class="hand-card" style="--card-color: #55efc4;" onclick="openModule('thoughts', '📝 个人感悟')">
-                <div class="card-content">
-                    <h2>📝</h2>
-                    <h3>个人感悟</h3>
-                </div>
-            </article>
+    <!-- 顶部横幅 (Hero Banner) -->
+    <header class="hero-banner">
+        <div class="hero-content">
+            <h1 class="hand-title bounce">✨ 欢迎降临我的精神自留地 ✨</h1>
+            <p>代码、画笔与奇思妙想的培养皿</p>
+            <!-- UIverse 移植的漫画风按钮 -->
+            <button class="uiverse-btn" onclick="alert('还没写这个功能呢！')">
+                <span class="text">投喂灵感 🍔</span>
+            </button>
         </div>
+        <!-- 装饰性手绘涂鸦 (纯CSS) -->
+        <div class="doodle star1">★</div>
+        <div class="doodle star2">✦</div>
+    </header>
+
+    <!-- 核心博客布局：左侧主内容区，右侧侧边栏 -->
+    <main class="container blog-layout">
+        
+        <!-- ================= 左侧：四个核心模块 ================= -->
+        <section class="main-modules">
+            <h2 class="section-title">📌 灵感导航</h2>
+            <div class="grid-2x2">
+                <!-- 模块 1：斜线阴影卡片 -->
+                <article class="sketch-card" style="--bg: #ffeaa7;" onclick="openModule('inspiration', '💡 创意灵感')">
+                    <div class="card-inner">
+                        <div class="icon-wrap">💡</div>
+                        <h3>创意灵感</h3>
+                    </div>
+                </article>
+                <!-- 模块 2 -->
+                <article class="sketch-card" style="--bg: #fab1a0;" onclick="openModule('portfolio', '🎨 作品集合')">
+                    <div class="card-inner">
+                        <div class="icon-wrap">🎨</div>
+                        <h3>作品集合</h3>
+                    </div>
+                </article>
+                <!-- 模块 3 -->
+                <article class="sketch-card" style="--bg: #81ecec;" onclick="openModule('skills', '🚀 技能经验')">
+                    <div class="card-inner">
+                        <div class="icon-wrap">🚀</div>
+                        <h3>技能经验</h3>
+                    </div>
+                </article>
+                <!-- 模块 4 -->
+                <article class="sketch-card" style="--bg: #a29bfe;" onclick="openModule('thoughts', '📝 个人感悟')">
+                    <div class="card-inner">
+                        <div class="icon-wrap">📝</div>
+                        <h3>个人感悟</h3>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- ================= 右侧：侧边栏 (博客必备) ================= -->
+        <aside class="sidebar">
+            
+            <!-- UIverse 风格个人卡片 -->
+            <div class="uiverse-profile-card">
+                <!-- 这里你可以换成你的真实头像路径 src="/images/avatar.jpg" -->
+                <div class="avatar">👦</div>
+                <h3 class="name">极客阿明</h3>
+                <p class="desc">"只要不报错，代码就是完美的。"</p>
+                <div class="stats">
+                    <div><strong>42</strong><span>文章</span></div>
+                    <div><strong>12</strong><span>小游戏</span></div>
+                </div>
+            </div>
+
+            <!-- 标签云 -->
+            <div class="tag-cloud-card">
+                <h3>🏷️ 随便贴贴</h3>
+                <div class="tags">
+                    <span class="tag">#前端折腾</span>
+                    <span class="tag">#深夜脑洞</span>
+                    <span class="tag">#Vite魔法</span>
+                    <span class="tag">#像素画</span>
+                </div>
+            </div>
+
+        </aside>
     </main>
 
-    <!-- 隐藏的弹出框：点击卡片后背景淡化，展示这里 -->
+    <!-- 底部横幅 (Footer Banner) -->
+    <footer class="footer-banner">
+        <h2 class="hand-title">TO BE CONTINUED...</h2>
+        <p>用 键盘 与 咖啡 持续发电 © 2024</p>
+        <div class="scribble-line"></div>
+    </footer>
+
+    <!-- ================= 弹窗模态框 ================= -->
     <dialog id="module-modal">
-        <article class="hand-modal">
+        <!-- 弹窗也做成撕纸手绘风格 -->
+        <article class="paper-modal">
             <header>
                 <a href="#close" aria-label="Close" class="close" onclick="closeModal()"></a>
                 <h3 id="modal-title" class="hand-title">模块标题</h3>
-                <!-- 视图切换按钮 -->
-                <button class="toggle-btn" onclick="toggleView()">🔄 切换视图</button>
+                <button class="uiverse-btn small" onclick="toggleView()">
+                    <span class="text">🔄 切换视图</span>
+                </button>
             </header>
-            
-            <!-- 文章列表动态渲染到这里 -->
-            <div id="article-list" class="view-list">
-                <!-- JS 负责填充 -->
-            </div>
+            <div id="article-list" class="view-list"></div>
         </article>
     </dialog>
 
