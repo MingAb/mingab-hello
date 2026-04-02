@@ -2,7 +2,7 @@
 <html class="light" lang="zh-CN">
 <head>
     <meta charset="utf-8"/>
-    <!-- ⚠️ 移动端适配核心代码：防止缩放导致排版错乱 -->
+    <!-- 允许自然滚动，禁止横向溢出和双击缩放 -->
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
     <title>极客阿明 | 独立思考与灵感收集</title>
     
@@ -36,32 +36,33 @@
         .fade-transition { transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out; }
         .fade-out { opacity: 0; transform: translateY(10px); }
         
-        /* ⚠️ 核心修复：强制整个网页不准出现横向和纵向的滚动条（如果确保一屏装得下的话） */
-        /* 但是考虑到小屏幕手机，纵向(y)我们允许内容多时轻微滑动，横向(x)绝对禁止 */
+        /* ⚠️ 核心修复：允许纵向滚动，绝对禁止横向滚动 */
         html, body {
             overflow-x: hidden;
-            width: 100vw;
-            /* 适配苹果手机的底部小黑条高度 */
-            height: 100vh;
-            height: -webkit-fill-available; 
+            width: 100%;
+            /* 保证最小高度撑满屏幕，使得底部栏能被推到最下面 */
+            min-height: 100vh; 
+            scroll-behavior: smooth;
         }
     </style>
 </head>
 
-<body class="bg-surface dark:bg-slate-900 text-on-surface dark:text-gray-100 font-body transition-colors duration-500 selection:bg-secondary-fixed selection:text-secondary flex flex-col">
+<body class="bg-surface dark:bg-slate-900 text-on-surface dark:text-gray-100 font-body transition-colors duration-500 selection:bg-secondary-fixed selection:text-secondary flex flex-col relative">
 
     <!-- ========== 顶部导航栏 ========== -->
-    <nav class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md flex justify-between items-center px-6 md:px-8 py-3 md:py-4 shadow-sm dark:shadow-none transition-colors duration-500">
-        <div class="text-xl md:text-2xl font-black text-blue-950 dark:text-white uppercase tracking-widest font-headline">
+    <nav class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md flex justify-between items-center px-4 md:px-8 py-3 md:py-4 shadow-sm dark:shadow-none transition-colors duration-500">
+        <!-- Logo字号在手机上稍微缩小以腾出空间 -->
+        <div class="text-lg md:text-2xl font-black text-blue-950 dark:text-white uppercase tracking-widest font-headline shrink-0">
             极客阿明
         </div>
-        <div class="hidden md:flex items-center space-x-10">
-            <a class="text-orange-700 dark:text-orange-500 font-bold border-b-2 border-orange-700 pb-1 font-serif text-lg tracking-tight" href="#">主页展览</a>
-            <a class="text-slate-600 dark:text-slate-400 hover:text-blue-900 dark:hover:text-blue-300 transition-colors font-serif text-lg tracking-tight" href="#">关于我</a>
+        <!-- ⚠️ 找回菜单：取消了 hidden，但在手机端缩小字号和间距，保证一行显示 -->
+        <div class="flex items-center space-x-3 md:space-x-10">
+            <a class="text-orange-700 dark:text-orange-500 font-bold border-b-2 border-orange-700 pb-1 font-serif text-xs md:text-lg tracking-tight" href="#">主页展览</a>
+            <a class="text-slate-600 dark:text-slate-400 hover:text-blue-900 dark:hover:text-blue-300 transition-colors font-serif text-xs md:text-lg tracking-tight" href="#">关于我</a>
         </div>
-        <div class="flex items-center space-x-4">
-            <button onclick="toggleDarkMode()" class="p-2 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-300 rounded-full flex items-center justify-center">
-                <span id="theme-icon" class="material-symbols-outlined text-blue-900 dark:text-yellow-400">dark_mode</span>
+        <div class="flex items-center">
+            <button onclick="toggleDarkMode()" class="p-2 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-300 rounded-full flex items-center justify-center shrink-0">
+                <span id="theme-icon" class="material-symbols-outlined text-blue-900 dark:text-yellow-400 text-sm md:text-base">dark_mode</span>
             </button>
         </div>
     </nav>
@@ -69,42 +70,38 @@
     <!-- 顶部进度条 -->
     <div class="fixed top-0 left-0 w-1/4 h-1 bg-secondary z-[60] transition-all duration-500" id="progress-bar"></div>
 
-    <!-- ========== 核心视觉区 (动态占据剩余屏幕高度) ========== -->
-    <!-- ⚠️ 修改：将 h-screen 改成了 flex-1，并留出上下边距，保证在不同高度手机上不会被挤变形 -->
-    <main class="flex-1 w-full flex flex-col md:flex-row items-center justify-center px-6 md:px-20 pt-24 md:pt-0 pb-20 md:pb-0 relative overflow-x-hidden">
+    <!-- ========== 核心视觉区 (允许被内容撑开) ========== -->
+    <main class="flex-1 w-full flex flex-col md:flex-row items-center justify-center px-6 md:px-20 pt-28 pb-16 relative overflow-visible">
         
-        <!-- 背景光效 (修改了尺寸，防止在手机端溢出屏幕) -->
-        <div class="absolute -top-10 -left-10 w-64 h-64 md:w-96 md:h-96 bg-secondary-fixed-dim/30 dark:bg-secondary-fixed-dim/10 rounded-full blur-3xl opacity-50 z-0 pointer-events-none"></div>
-        <div class="absolute -bottom-10 -right-10 w-64 h-64 md:w-96 md:h-96 bg-primary-fixed/40 dark:bg-primary-fixed/10 rounded-full blur-3xl opacity-50 z-0 pointer-events-none"></div>
+        <!-- 背景光效 -->
+        <div class="absolute top-10 left-0 w-64 h-64 md:w-96 md:h-96 bg-secondary-fixed-dim/30 dark:bg-secondary-fixed-dim/10 rounded-full blur-3xl opacity-50 z-0 pointer-events-none"></div>
+        <div class="absolute bottom-10 right-0 w-64 h-64 md:w-96 md:h-96 bg-primary-fixed/40 dark:bg-primary-fixed/10 rounded-full blur-3xl opacity-50 z-0 pointer-events-none"></div>
         
         <!-- 电脑端左侧按钮 -->
         <button onclick="changeProject(-1)" class="hidden md:flex absolute left-8 z-40 w-14 h-14 items-center justify-center rounded-full bg-white dark:bg-slate-800 text-primary dark:text-white hover:bg-secondary hover:text-white transition-all duration-300 shadow-xl active:scale-95">
             <span class="material-symbols-outlined text-3xl">arrow_back_ios_new</span>
         </button>
 
-        <!-- ⚠️ 修改：手机端改为上下结构，且缩小了列间距 (gap) -->
-        <div class="flex flex-col md:flex-row items-center w-full max-w-7xl mx-auto gap-8 md:gap-24 relative z-10">
+        <!-- 内容包裹层 -->
+        <div class="flex flex-col md:flex-row items-center w-full max-w-7xl mx-auto gap-12 md:gap-24 relative z-10">
             
             <!-- 文字介绍区 -->
-            <div id="text-container" class="w-full md:w-1/2 flex flex-col items-start text-left space-y-4 md:space-y-6 order-2 md:order-1 fade-transition mt-4 md:mt-0">
+            <div id="text-container" class="w-full md:w-1/2 flex flex-col items-start text-left space-y-4 md:space-y-6 order-2 md:order-1 fade-transition mt-8 md:mt-0">
                 <div class="flex items-center space-x-3 mb-1">
                     <span class="h-px w-8 md:w-12 bg-secondary"></span>
-                    <span id="proj-tag" class="font-label text-[10px] md:text-xs uppercase tracking-[0.3em] text-secondary dark:text-orange-400 font-bold">Vol. 001 创刊号</span>
+                    <span id="proj-tag" class="font-label text-xs uppercase tracking-[0.3em] text-secondary dark:text-orange-400 font-bold">Vol. 001 创刊号</span>
                 </div>
                 
-                <!-- 手机端标题字号缩小 -->
-                <h1 id="proj-title" class="font-headline text-4xl sm:text-5xl md:text-7xl lg:text-8xl text-primary dark:text-white leading-[1.1] md:leading-[0.95] tracking-tighter transition-colors">
+                <h1 id="proj-title" class="font-headline text-5xl md:text-7xl lg:text-8xl text-primary dark:text-white leading-[1.1] md:leading-[0.95] tracking-tighter transition-colors">
                     代码与 <br/> <span class="italic text-secondary dark:text-orange-500">诗歌.</span>
                 </h1>
                 
-                <!-- 手机端描述字号缩小 -->
-                <p id="proj-desc" class="font-body text-sm sm:text-base md:text-xl text-on-surface-variant dark:text-gray-300 max-w-lg leading-relaxed transition-colors">
+                <p id="proj-desc" class="font-body text-base md:text-xl text-on-surface-variant dark:text-gray-300 max-w-lg leading-relaxed transition-colors">
                     在这里记录技术探索、网页实验室以及偶尔的胡思乱想。一次对极简主义与前端工程化的视觉探索。
                 </p>
                 
-                <!-- 按钮组在手机端横向排列并缩小边距 -->
-                <div class="flex flex-row items-center gap-4 pt-2 md:pt-6">
-                    <a id="proj-link-1" href="#" class="bg-secondary-container dark:bg-orange-700 text-white px-5 md:px-8 py-3 md:py-4 rounded-md font-label uppercase tracking-widest text-xs md:text-sm font-bold hover:brightness-110 transition-all active:scale-95 shadow-lg shadow-secondary/20 block text-center">
+                <div class="flex flex-row items-center gap-4 pt-4 md:pt-6">
+                    <a id="proj-link-1" href="#" class="bg-secondary-container dark:bg-orange-700 text-white px-6 md:px-8 py-3 md:py-4 rounded-md font-label uppercase tracking-widest text-xs md:text-sm font-bold hover:brightness-110 transition-all active:scale-95 shadow-lg shadow-secondary/20 block text-center">
                         阅读
                     </a>
                     <a id="proj-link-2" href="#" class="group flex items-center space-x-1 md:space-x-2 py-2 md:py-4 text-primary dark:text-gray-200 font-bold font-label uppercase tracking-widest text-xs md:text-sm relative overflow-hidden block">
@@ -118,30 +115,33 @@
             <!-- 3D 图片特效区 -->
             <div class="w-full md:w-1/2 flex flex-col justify-center items-center order-1 md:order-2 relative group fade-transition" id="img-container">
                 
-                <div style="perspective: 1200px;">
-                    <!-- ⚠️ 修改：手机端图片高度缩减，防止占据整屏 -->
-                    <div class="relative w-[220px] h-[300px] sm:w-[260px] sm:h-[350px] md:w-[340px] md:h-[480px] rounded-xl shadow-[0_15px_40px_rgba(0,0,0,0.3)] dark:shadow-[0_15px_40px_rgba(0,0,0,0.8)] transition-all duration-700 ease-out [transform:rotateY(15deg)_rotateZ(-4deg)] group-hover:[transform:rotateY(0deg)_rotateZ(0deg)_scale(1.05)] cursor-pointer">
+                <div style="perspective: 1200px; width: 100%; display: flex; justify-content: center;">
+                    <!-- ⚠️ 核心动画修复：区分电脑端和手机端 -->
+                    <!-- 电脑端(md:)：默认倾斜黑白，悬停变正彩色 -->
+                    <!-- 手机端(无md:)：默认完全正放、彩色！不再使用 hover -->
+                    <div id="scroll-image" class="relative w-full max-w-[320px] h-[400px] md:max-w-[340px] md:h-[480px] rounded-xl shadow-[0_15px_40px_rgba(0,0,0,0.3)] dark:shadow-[0_15px_40px_rgba(0,0,0,0.8)] transition-all duration-700 ease-out 
+                    md:[transform:rotateY(15deg)_rotateZ(-4deg)] md:group-hover:[transform:rotateY(0deg)_rotateZ(0deg)_scale(1.05)] cursor-pointer">
                         
-                        <div class="absolute top-3 left-3 md:top-4 md:left-4 z-10 bg-white/90 dark:bg-black/80 backdrop-blur px-3 py-1.5 md:px-4 md:py-2 rounded-full shadow-lg transition-colors">
-                            <span class="font-label text-[8px] md:text-[10px] font-black uppercase tracking-widest text-primary dark:text-white">精选集</span>
+                        <div class="absolute top-4 left-4 z-10 bg-white/90 dark:bg-black/80 backdrop-blur px-4 py-2 rounded-full shadow-lg transition-colors">
+                            <span class="font-label text-[10px] font-black uppercase tracking-widest text-primary dark:text-white">精选集</span>
                         </div>
                         
-                        <img id="proj-img" alt="主视觉图" class="w-full h-full object-cover rounded-xl grayscale hover:grayscale-0 transition-all duration-700" src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=800&auto=format&fit=crop"/>
+                        <!-- 图片本体：电脑端默认灰，手机端默认彩 -->
+                        <img id="proj-img" alt="主视觉图" class="w-full h-full object-cover rounded-xl md:grayscale md:group-hover:grayscale-0 transition-all duration-700" src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=800&auto=format&fit=crop"/>
                         
-                        <div class="absolute inset-0 bg-black/10 rounded-xl group-hover:bg-transparent transition-colors duration-700"></div>
+                        <div class="absolute inset-0 md:bg-black/10 rounded-xl md:group-hover:bg-transparent transition-colors duration-700"></div>
                     </div>
                 </div>
 
-                <!-- 巨大的背景数字 (手机端隐藏，因为太占地方了) -->
                 <div id="proj-num" class="absolute -bottom-10 -left-10 font-headline text-[10rem] text-surface-variant dark:text-slate-800 opacity-40 select-none hidden md:block transition-colors duration-500 z-[-1]">01</div>
 
-                <!-- ⚠️ 修改：手机端的左右切换按钮，移动到了图片正下方！ -->
-                <div class="md:hidden flex space-x-6 mt-6 z-20">
-                    <button onclick="changeProject(-1)" class="w-10 h-10 flex items-center justify-center rounded-full bg-white dark:bg-slate-800 text-primary dark:text-white shadow-[0_5px_15px_rgba(0,0,0,0.1)] active:scale-90 transition-all">
-                        <span class="material-symbols-outlined text-lg">chevron_left</span>
+                <!-- 手机端的左右切换按钮 -->
+                <div class="md:hidden flex space-x-6 mt-8 z-20">
+                    <button onclick="changeProject(-1)" class="w-12 h-12 flex items-center justify-center rounded-full bg-white dark:bg-slate-800 text-primary dark:text-white shadow-[0_5px_15px_rgba(0,0,0,0.1)] active:scale-90 transition-all">
+                        <span class="material-symbols-outlined text-xl">chevron_left</span>
                     </button>
-                    <button onclick="changeProject(1)" class="w-10 h-10 flex items-center justify-center rounded-full bg-white dark:bg-slate-800 text-primary dark:text-white shadow-[0_5px_15px_rgba(0,0,0,0.1)] active:scale-90 transition-all">
-                        <span class="material-symbols-outlined text-lg">chevron_right</span>
+                    <button onclick="changeProject(1)" class="w-12 h-12 flex items-center justify-center rounded-full bg-white dark:bg-slate-800 text-primary dark:text-white shadow-[0_5px_15px_rgba(0,0,0,0.1)] active:scale-90 transition-all">
+                        <span class="material-symbols-outlined text-xl">chevron_right</span>
                     </button>
                 </div>
             </div>
@@ -153,22 +153,23 @@
         </button>
     </main>
 
-    <!-- ========== 底部栏 ========== -->
-    <footer class="fixed bottom-0 w-full z-30 bg-blue-950 dark:bg-black text-white flex flex-col md:flex-row justify-center md:justify-between items-center px-12 py-2 md:py-4 transition-colors duration-500">
+    <!-- ========== 底部栏 (变成正常流文档，只有拉到底才看得到) ========== -->
+    <footer class="w-full bg-blue-950 dark:bg-black text-white flex flex-col md:flex-row justify-center md:justify-between items-center px-12 py-6 transition-colors duration-500 mt-auto z-30">
         <div class="font-serif italic text-white text-sm hidden md:block">极客阿明.</div>
-        <div class="font-sans text-[10px] md:text-xs uppercase tracking-widest text-white/60 text-center">
+        <div class="font-sans text-xs uppercase tracking-widest text-white/60 text-center">
             © 2024 极客阿明. 用键盘敲击世界.
         </div>
     </footer>
 
-    <!-- ========== 右下角四点导航 (指示器) ========== -->
-    <!-- ⚠️ 手机端微调了位置，防止被底部状态栏挡住 -->
-    <div class="fixed right-6 md:right-12 bottom-12 md:bottom-24 flex space-x-2 md:space-x-3 z-40" id="dots-container">
-        <!-- JS 会自动生成这些点 -->
+    <!-- ========== 右下角四点导航 ========== -->
+    <!-- 手机端稍微上移，防止挡住文字或按钮 -->
+    <div class="fixed right-6 md:right-12 bottom-8 md:bottom-24 flex space-x-2 md:space-x-3 z-40" id="dots-container">
+        <!-- JS 自动生成 -->
     </div>
 
     <!-- ================= JS 逻辑控制区 ================= -->
     <script>
+        // --- 黑暗模式 ---
         const htmlElement = document.documentElement;
         const themeIcon = document.getElementById('theme-icon');
 
@@ -184,35 +185,12 @@
             }
         }
 
+        // --- 项目数据 ---
         const projects = [
-            {
-                tag: "Vol. 001 创刊号",
-                title: "代码与 <br/> <span class='italic text-secondary dark:text-orange-500'>诗歌.</span>",
-                desc: "在这里记录技术探索、网页实验室以及偶尔的胡思乱想。一次对极简主义与前端工程化的视觉探索。",
-                img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=800&auto=format&fit=crop",
-                num: "01"
-            },
-            {
-                tag: "Vol. 002 实验室",
-                title: "创意与 <br/> <span class='italic text-secondary dark:text-orange-500'>设计.</span>",
-                desc: "收集全网最酷的UI交互灵感，将天马行空的设计草图，用原生代码一行行还原成真实的像素。",
-                img: "https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=800&auto=format&fit=crop",
-                num: "02"
-            },
-            {
-                tag: "Vol. 003 游乐场",
-                title: "像素与 <br/> <span class='italic text-secondary dark:text-orange-500'>童年.</span>",
-                desc: "复刻经典的网页小游戏，用 Vanilla JS 找回红白机时代的纯粹快乐。方向键准备就绪，按 Start 键开始。",
-                img: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop",
-                num: "03"
-            },
-            {
-                tag: "Vol. 004 随笔集",
-                title: "深夜与 <br/> <span class='italic text-secondary dark:text-orange-500'>咖啡.</span>",
-                desc: "剥离技术的坚硬外壳，记录生活碎片的柔软内核。一些关于读书、旅行和自我成长的杂谈。",
-                img: "https://images.unsplash.com/photo-1495474472207-464a8d4ce17b?q=80&w=800&auto=format&fit=crop",
-                num: "04"
-            }
+            { tag: "Vol. 001 创刊号", title: "代码与 <br/> <span class='italic text-secondary dark:text-orange-500'>诗歌.</span>", desc: "在这里记录技术探索、网页实验室以及偶尔的胡思乱想。一次对极简主义与前端工程化的视觉探索。", img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=800&auto=format&fit=crop", num: "01" },
+            { tag: "Vol. 002 实验室", title: "创意与 <br/> <span class='italic text-secondary dark:text-orange-500'>设计.</span>", desc: "收集全网最酷的UI交互灵感，将天马行空的设计草图，用原生代码一行行还原成真实的像素。", img: "https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=800&auto=format&fit=crop", num: "02" },
+            { tag: "Vol. 003 游乐场", title: "像素与 <br/> <span class='italic text-secondary dark:text-orange-500'>童年.</span>", desc: "复刻经典的网页小游戏，用 Vanilla JS 找回红白机时代的纯粹快乐。方向键准备就绪，按 Start 键开始。", img: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop", num: "03" },
+            { tag: "Vol. 004 随笔集", title: "深夜与 <br/> <span class='italic text-secondary dark:text-orange-500'>咖啡.</span>", desc: "剥离技术的坚硬外壳，记录生活碎片的柔软内核。一些关于读书、旅行和自我成长的杂谈。", img: "https://images.unsplash.com/photo-1495474472207-464a8d4ce17b?q=80&w=800&auto=format&fit=crop", num: "04" }
         ];
 
         let currentIndex = 0;
@@ -220,6 +198,8 @@
         const imgContainer = document.getElementById('img-container');
         const dotsContainer = document.getElementById('dots-container');
         const progressBar = document.getElementById('progress-bar');
+        const scrollImage = document.getElementById('scroll-image');
+        const innerImg = document.getElementById('proj-img');
 
         function initDots() {
             dotsContainer.innerHTML = '';
@@ -240,17 +220,15 @@
                 document.getElementById('proj-tag').innerHTML = p.tag;
                 document.getElementById('proj-title').innerHTML = p.title;
                 document.getElementById('proj-desc').innerHTML = p.desc;
-                document.getElementById('proj-img').src = p.img;
+                innerImg.src = p.img;
                 document.getElementById('proj-num').innerText = p.num;
 
                 progressBar.style.width = `${((currentIndex + 1) / projects.length) * 100}%`;
 
                 Array.from(dotsContainer.children).forEach((dot, index) => {
-                    if (index === currentIndex) {
-                        dot.className = 'h-2 md:h-2.5 rounded-full cursor-pointer transition-all duration-500 w-6 md:w-8 bg-secondary dark:bg-orange-500';
-                    } else {
-                        dot.className = 'h-2 md:h-2.5 rounded-full cursor-pointer transition-all duration-500 w-2 md:w-2.5 bg-outline-variant dark:bg-slate-600 hover:bg-secondary-fixed';
-                    }
+                    dot.className = index === currentIndex 
+                        ? 'h-2 md:h-2.5 rounded-full cursor-pointer transition-all duration-500 w-6 md:w-8 bg-secondary dark:bg-orange-500' 
+                        : 'h-2 md:h-2.5 rounded-full cursor-pointer transition-all duration-500 w-2 md:w-2.5 bg-outline-variant dark:bg-slate-600 hover:bg-secondary-fixed';
                 });
 
                 textContainer.classList.remove('fade-out');
@@ -259,9 +237,7 @@
         }
 
         function changeProject(direction) {
-            currentIndex += direction;
-            if (currentIndex < 0) currentIndex = projects.length - 1;
-            if (currentIndex >= projects.length) currentIndex = 0;
+            currentIndex = (currentIndex + direction + projects.length) % projects.length;
             updateUI();
         }
 
@@ -270,6 +246,35 @@
             currentIndex = index;
             updateUI();
         }
+
+        // 🌟🌟🌟 核心魔法：手机端滑动监听 🌟🌟🌟
+        window.addEventListener('scroll', () => {
+            // 只在手机端 (屏幕宽度 < 768px) 生效
+            if (window.innerWidth < 768) {
+                const scrollY = window.scrollY;
+                
+                // 计算滑动的进度 (0 到 1 之间)，假设向下滑动 400px 达到最大特效
+                let progress = Math.min(scrollY / 400, 1);
+                
+                // 根据进度计算倾斜角度、缩小比例和模糊度
+                // 倾斜角度: 从 0 到 20度 (rotateY), 从 0 到 -5度 (rotateZ)
+                const rotY = progress * 20;
+                const rotZ = progress * -5;
+                // 缩小比例: 从 1 缩小到 0.9
+                const scale = 1 - (progress * 0.1);
+                // 模糊和灰度: 模糊 0 -> 4px, 灰度 0 -> 80%
+                const blur = progress * 4;
+                const grayscale = progress * 80;
+
+                // 实时注入 CSS 动画！
+                scrollImage.style.transform = `rotateY(${rotY}deg) rotateZ(${rotZ}deg) scale(${scale})`;
+                innerImg.style.filter = `blur(${blur}px) grayscale(${grayscale}%)`;
+            } else {
+                // 电脑端清理掉行内样式，让 CSS hover 接管
+                scrollImage.style.transform = '';
+                innerImg.style.filter = '';
+            }
+        });
 
         window.onload = () => {
             initDots();
