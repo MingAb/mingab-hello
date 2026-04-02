@@ -7,6 +7,7 @@
     
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Manrope:wght@200..800&display=swap" rel="stylesheet"/>
+    <!-- 引入谷歌 Material 图标 -->
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     
     <script>
@@ -34,39 +35,62 @@
         .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
         .fade-transition { transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out; }
         .fade-out { opacity: 0; transform: translateY(10px); }
-        
-        html, body {
-            overflow-x: hidden;
-            width: 100%;
-            min-height: 100vh; 
-            scroll-behavior: smooth;
-        }
+        html, body { overflow-x: hidden; width: 100%; min-height: 100vh; scroll-behavior: smooth; }
     </style>
 </head>
 
 <body class="bg-surface dark:bg-slate-900 text-on-surface dark:text-gray-100 font-body transition-colors duration-500 selection:bg-secondary-fixed selection:text-secondary flex flex-col relative">
 
     <!-- ========== 顶部导航栏 ========== -->
-    <nav class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md flex justify-between items-center px-4 md:px-8 py-3 md:py-4 shadow-sm dark:shadow-none transition-colors duration-500">
+    <nav class="fixed top-0 w-full z-40 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md flex justify-between items-center px-4 md:px-8 py-3 md:py-4 shadow-sm dark:shadow-none transition-colors duration-500">
+        <!-- Logo -->
         <div class="text-xl md:text-2xl font-black text-blue-950 dark:text-white uppercase tracking-widest font-headline shrink-0">
             极客阿明
         </div>
-        <div class="flex items-center space-x-4 md:space-x-10">
-            <a class="text-orange-700 dark:text-orange-500 font-bold border-b-2 border-orange-700 pb-1 font-serif text-sm md:text-lg tracking-tight" href="#">主页展览</a>
-            <a class="text-slate-600 dark:text-slate-400 hover:text-blue-900 dark:hover:text-blue-300 transition-colors font-serif text-sm md:text-lg tracking-tight" href="#">关于我</a>
+        
+        <!-- 电脑端菜单 (展开) -->
+        <div class="hidden md:flex items-center space-x-10">
+            <a class="text-orange-700 dark:text-orange-500 font-bold border-b-2 border-orange-700 pb-1 font-serif text-lg tracking-tight" href="#">主页展览</a>
+            <a class="text-slate-600 dark:text-slate-400 hover:text-blue-900 dark:hover:text-blue-300 transition-colors font-serif text-lg tracking-tight" href="#">随笔文章</a>
+            <a class="text-slate-600 dark:text-slate-400 hover:text-blue-900 dark:hover:text-blue-300 transition-colors font-serif text-lg tracking-tight" href="#">作品集合</a>
+            <a class="text-slate-600 dark:text-slate-400 hover:text-blue-900 dark:hover:text-blue-300 transition-colors font-serif text-lg tracking-tight" href="#">关于我</a>
         </div>
-        <div class="flex items-center">
+        
+        <!-- 右侧操作区 (黑暗模式 + 手机菜单按钮) -->
+        <div class="flex items-center space-x-2 md:space-x-4">
+            <!-- 🌟 手机端：只显示当前处于的页面标题 -->
+            <span class="md:hidden text-orange-700 dark:text-orange-500 font-bold border-b-2 border-orange-700 pb-0.5 font-serif text-sm mr-1">主页展览</span>
+            
             <button onclick="toggleDarkMode()" class="p-2 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-300 rounded-full flex items-center justify-center shrink-0">
                 <span id="theme-icon" class="material-symbols-outlined text-blue-900 dark:text-yellow-400 text-base md:text-lg">dark_mode</span>
             </button>
+            
+            <!-- 🌟 手机端：三条杠折叠菜单按钮 -->
+            <button onclick="toggleMobileMenu()" class="md:hidden p-2 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-300 rounded-full flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined text-blue-900 dark:text-white text-xl">menu</span>
+            </button>
         </div>
     </nav>
+
+    <!-- 🌟 手机全屏毛玻璃折叠菜单 (默认隐藏) -->
+    <div id="mobile-menu" class="fixed inset-0 bg-white/95 dark:bg-slate-900/95 z-50 flex-col items-center justify-center space-y-8 backdrop-blur-lg transition-all duration-300 opacity-0 hidden">
+        <!-- 关闭按钮 -->
+        <button onclick="toggleMobileMenu()" class="absolute top-5 right-5 p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-all">
+            <span class="material-symbols-outlined text-4xl dark:text-white">close</span>
+        </button>
+        <!-- 菜单链接 -->
+        <a href="#" class="text-2xl font-bold text-orange-700 dark:text-orange-500 border-b-4 border-orange-700 pb-2">主页展览</a>
+        <a href="#" class="text-2xl font-bold text-slate-600 dark:text-slate-300 hover:text-orange-500 transition-colors">随笔文章</a>
+        <a href="#" class="text-2xl font-bold text-slate-600 dark:text-slate-300 hover:text-orange-500 transition-colors">作品集合</a>
+        <a href="#" class="text-2xl font-bold text-slate-600 dark:text-slate-300 hover:text-orange-500 transition-colors">关于我</a>
+    </div>
 
     <!-- 顶部进度条 -->
     <div class="fixed top-0 left-0 w-1/4 h-1 bg-secondary z-[60] transition-all duration-500" id="progress-bar"></div>
 
     <!-- ========== 核心视觉区 ========== -->
-    <main class="flex-1 w-full flex flex-col md:flex-row items-center justify-center px-6 md:px-20 pt-24 md:pt-28 pb-12 md:pb-16 relative overflow-visible">
+    <!-- ⚠️ 将手机端 pt-24 压缩到 pt-20，图片更贴近顶部！ -->
+    <main class="flex-1 w-full flex flex-col md:flex-row items-center justify-center px-6 md:px-20 pt-20 md:pt-28 pb-12 md:pb-16 relative overflow-visible">
         
         <!-- 背景光效 -->
         <div class="absolute top-10 left-0 w-64 h-64 md:w-96 md:h-96 bg-secondary-fixed-dim/30 dark:bg-secondary-fixed-dim/10 rounded-full blur-3xl opacity-50 z-0 pointer-events-none"></div>
@@ -77,36 +101,35 @@
             <span class="material-symbols-outlined text-3xl">arrow_back_ios_new</span>
         </button>
 
+        <!-- 主内容包裹层 -->
         <div class="flex flex-col md:flex-row items-center w-full max-w-7xl mx-auto gap-8 md:gap-24 relative z-10">
             
             <!-- ====== 3D 图片特效区 ====== -->
-            <div class="w-full md:w-1/2 flex flex-col justify-center items-center order-1 md:order-2 relative group fade-transition mt-2 md:mt-0" id="img-container">
+            <div class="w-full md:w-1/2 flex flex-col justify-center items-center order-1 md:order-2 relative group fade-transition mt-0" id="img-container">
                 
+                <!-- 🌟 手机端左右悬浮箭头：彻底移到屏幕最边缘 (-left-4 / -right-4)！ -->
+                <div class="md:hidden absolute top-1/2 -translate-y-1/2 -left-6 z-20">
+                    <button onclick="changeProject(-1)" class="w-16 h-20 flex items-center justify-center text-white/90 active:scale-90 transition-all relative">
+                        <div class="absolute inset-0" style="backdrop-filter: blur(12px); -webkit-mask-image: radial-gradient(circle, rgba(0,0,0,1) 20%, rgba(0,0,0,0) 70%); background: radial-gradient(circle, rgba(0,0,0,0.3) 10%, rgba(0,0,0,0) 70%);"></div>
+                        <span class="material-symbols-outlined text-4xl relative z-10" style="text-shadow: 0 2px 10px rgba(0,0,0,0.4);">chevron_left</span>
+                    </button>
+                </div>
+                <div class="md:hidden absolute top-1/2 -translate-y-1/2 -right-6 z-20">
+                    <button onclick="changeProject(1)" class="w-16 h-20 flex items-center justify-center text-white/90 active:scale-90 transition-all relative">
+                        <div class="absolute inset-0" style="backdrop-filter: blur(12px); -webkit-mask-image: radial-gradient(circle, rgba(0,0,0,1) 20%, rgba(0,0,0,0) 70%); background: radial-gradient(circle, rgba(0,0,0,0.3) 10%, rgba(0,0,0,0) 70%);"></div>
+                        <span class="material-symbols-outlined text-4xl relative z-10" style="text-shadow: 0 2px 10px rgba(0,0,0,0.4);">chevron_right</span>
+                    </button>
+                </div>
+
                 <div style="perspective: 1200px; width: 100%; display: flex; justify-content: center;">
-                    <div id="scroll-image" class="relative w-full max-w-[320px] h-[420px] md:max-w-[340px] md:h-[480px] rounded-xl shadow-[0_15px_40px_rgba(0,0,0,0.3)] dark:shadow-[0_15px_40px_rgba(0,0,0,0.8)] transition-all duration-700 ease-out 
-                    md:[transform:rotateY(15deg)_rotateZ(-4deg)] md:group-hover:[transform:rotateY(0deg)_rotateZ(0deg)_scale(1.05)] cursor-pointer overflow-hidden">
+                    <div id="scroll-image" class="relative w-full max-w-[300px] h-[400px] md:max-w-[340px] md:h-[480px] rounded-xl shadow-[0_15px_40px_rgba(0,0,0,0.3)] dark:shadow-[0_15px_40px_rgba(0,0,0,0.8)] transition-all duration-700 ease-out 
+                    md:[transform:rotateY(15deg)_rotateZ(-4deg)] md:group-hover:[transform:rotateY(0deg)_rotateZ(0deg)_scale(1.05)] cursor-pointer overflow-hidden z-10">
                         
                         <div class="absolute top-4 left-4 z-10 bg-white/90 dark:bg-black/80 backdrop-blur px-4 py-2 rounded-full shadow-lg transition-colors">
                             <span class="font-label text-[10px] font-black uppercase tracking-widest text-primary dark:text-white">精选集</span>
                         </div>
                         
                         <img id="proj-img" alt="主视觉图" class="w-full h-full object-cover md:grayscale md:group-hover:grayscale-0 transition-all duration-700" src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=800&auto=format&fit=crop"/>
-                        
-                        <!-- 🌟 极致美学：径向渐变模糊按钮 (Radial Mask Blur) -->
-                        <div class="md:hidden absolute top-1/2 -translate-y-1/2 left-0 z-20">
-                            <button onclick="changeProject(-1)" class="w-20 h-20 flex items-center justify-center text-white/90 active:scale-90 transition-all relative">
-                                <!-- 这层是魔法：利用 mask-image 做出边缘逐渐消散的模糊晕染 -->
-                                <div class="absolute inset-0" style="backdrop-filter: blur(12px); -webkit-mask-image: radial-gradient(circle, rgba(0,0,0,1) 20%, rgba(0,0,0,0) 70%); background: radial-gradient(circle, rgba(0,0,0,0.3) 10%, rgba(0,0,0,0) 70%);"></div>
-                                <span class="material-symbols-outlined text-5xl relative z-10" style="text-shadow: 0 2px 10px rgba(0,0,0,0.4);">chevron_left</span>
-                            </button>
-                        </div>
-                        <div class="md:hidden absolute top-1/2 -translate-y-1/2 right-0 z-20">
-                            <button onclick="changeProject(1)" class="w-20 h-20 flex items-center justify-center text-white/90 active:scale-90 transition-all relative">
-                                <div class="absolute inset-0" style="backdrop-filter: blur(12px); -webkit-mask-image: radial-gradient(circle, rgba(0,0,0,1) 20%, rgba(0,0,0,0) 70%); background: radial-gradient(circle, rgba(0,0,0,0.3) 10%, rgba(0,0,0,0) 70%);"></div>
-                                <span class="material-symbols-outlined text-5xl relative z-10" style="text-shadow: 0 2px 10px rgba(0,0,0,0.4);">chevron_right</span>
-                            </button>
-                        </div>
-
                         <div class="absolute inset-0 md:bg-black/10 md:group-hover:bg-transparent transition-colors duration-700 pointer-events-none"></div>
                     </div>
                 </div>
@@ -149,7 +172,7 @@
         </button>
     </main>
 
-    <!-- ========== 🌟 四点导航 (回归自然文档流，放置在底部版权上方) ========== -->
+    <!-- ========== 四点导航 (紧贴底部版权栏上方) ========== -->
     <div class="w-full flex justify-center pb-8 mt-auto z-30" id="dots-container">
         <!-- JS 自动生成 -->
     </div>
@@ -164,9 +187,9 @@
 
     <!-- ================= JS 逻辑控制区 ================= -->
     <script>
+        // --- 黑暗模式 ---
         const htmlElement = document.documentElement;
         const themeIcon = document.getElementById('theme-icon');
-
         function toggleDarkMode() {
             if (htmlElement.classList.contains('dark')) {
                 htmlElement.classList.remove('dark');
@@ -179,6 +202,26 @@
             }
         }
 
+        // --- 手机全屏菜单逻辑 ---
+        const mobileMenu = document.getElementById('mobile-menu');
+        let isMenuOpen = false;
+        function toggleMobileMenu() {
+            isMenuOpen = !isMenuOpen;
+            if (isMenuOpen) {
+                mobileMenu.classList.remove('hidden');
+                // 留一点点延迟让 display:block 生效后再改变透明度，实现淡入动画
+                setTimeout(() => mobileMenu.classList.remove('opacity-0'), 10);
+                // 禁止底层网页滑动
+                document.body.style.overflow = 'hidden';
+            } else {
+                mobileMenu.classList.add('opacity-0');
+                setTimeout(() => mobileMenu.classList.add('hidden'), 300);
+                // 恢复底层滑动
+                document.body.style.overflow = '';
+            }
+        }
+
+        // --- 项目数据 ---
         const projects = [
             { tag: "Vol. 001 创刊号", title: "代码与 <br/> <span class='italic text-secondary dark:text-orange-500'>诗歌.</span>", desc: "在这里记录技术探索、网页实验室以及偶尔的胡思乱想。一次对极简主义与前端工程化的视觉探索。", img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=800&auto=format&fit=crop", num: "01" },
             { tag: "Vol. 002 实验室", title: "创意与 <br/> <span class='italic text-secondary dark:text-orange-500'>设计.</span>", desc: "收集全网最酷的UI交互灵感，将天马行空的设计草图，用原生代码一行行还原成真实的像素。", img: "https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=800&auto=format&fit=crop", num: "02" },
