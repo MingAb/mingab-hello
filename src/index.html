@@ -2,6 +2,7 @@
 <html class="light" lang="zh-CN">
 <head>
     <meta charset="utf-8"/>
+    <!-- 完美移动端视口设置 -->
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
     <title>极客阿明 | 独立思考与灵感收集</title>
     
@@ -35,28 +36,22 @@
         .fade-transition { transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out; }
         .fade-out { opacity: 0; transform: translateY(10px); }
         html, body { overflow-x: hidden; width: 100%; min-height: 100vh; scroll-behavior: smooth; }
-        
-        /* 🌟 菜单弹出动画 */
-        @keyframes menuSlideIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .menu-item-animate { animation: menuSlideIn 0.4s ease forwards; opacity: 0; }
-        .delay-1 { animation-delay: 0.1s; }
-        .delay-2 { animation-delay: 0.2s; }
-        .delay-3 { animation-delay: 0.3s; }
-        .delay-4 { animation-delay: 0.4s; }
     </style>
 </head>
 
 <body class="bg-surface dark:bg-slate-900 text-on-surface dark:text-gray-100 font-body transition-colors duration-500 selection:bg-secondary-fixed selection:text-secondary flex flex-col relative">
 
+    <!-- 顶部进度条 (放在最顶层) -->
+    <div class="fixed top-0 left-0 w-1/4 h-1 bg-secondary z-[60] transition-all duration-500" id="progress-bar"></div>
+
     <!-- ========== 顶部导航栏 ========== -->
-    <nav class="fixed top-0 w-full z-40 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md flex justify-between items-center px-4 md:px-8 py-3 md:py-4 shadow-sm dark:shadow-none transition-colors duration-500">
+    <nav class="fixed top-0 w-full z-50 bg-white/95 dark:bg-slate-950/95 backdrop-blur-md flex justify-between items-center px-4 md:px-8 py-3 md:py-4 shadow-sm dark:shadow-none transition-colors duration-500">
+        <!-- Logo -->
         <div class="text-xl md:text-2xl font-black text-blue-950 dark:text-white uppercase tracking-widest font-headline shrink-0">
             极客阿明
         </div>
         
+        <!-- 电脑端菜单 -->
         <div class="hidden md:flex items-center space-x-10">
             <a class="text-orange-700 dark:text-orange-500 font-bold border-b-2 border-orange-700 pb-1 font-serif text-lg tracking-tight" href="#">主页展览</a>
             <a class="text-slate-600 dark:text-slate-400 hover:text-blue-900 dark:hover:text-blue-300 transition-colors font-serif text-lg tracking-tight" href="#">随笔文章</a>
@@ -64,38 +59,39 @@
             <a class="text-slate-600 dark:text-slate-400 hover:text-blue-900 dark:hover:text-blue-300 transition-colors font-serif text-lg tracking-tight" href="#">关于我</a>
         </div>
         
+        <!-- 右侧操作区 -->
         <div class="flex items-center space-x-2 md:space-x-4">
+            <!-- 手机端当前页面标题 -->
             <span class="md:hidden text-orange-700 dark:text-orange-500 font-bold border-b-2 border-orange-700 pb-0.5 font-serif text-sm mr-1">主页展览</span>
+            
             <button onclick="toggleDarkMode()" class="p-2 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-300 rounded-full flex items-center justify-center shrink-0">
                 <span id="theme-icon" class="material-symbols-outlined text-blue-900 dark:text-yellow-400 text-base md:text-lg">dark_mode</span>
             </button>
+            
+            <!-- 手机端三条横线按钮 -->
             <button onclick="toggleMobileMenu()" class="md:hidden p-2 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-300 rounded-full flex items-center justify-center shrink-0">
-                <span class="material-symbols-outlined text-blue-900 dark:text-white text-xl">menu</span>
+                <span class="material-symbols-outlined text-blue-900 dark:text-white text-2xl">menu</span>
             </button>
+        </div>
+
+        <!-- 🌟 经典下拉菜单 (绝对定位在导航栏下方，手机端可见) -->
+        <div id="mobile-menu" class="absolute top-full left-0 w-full bg-white dark:bg-slate-900 shadow-xl border-t border-gray-100 dark:border-slate-800 hidden flex-col md:hidden transition-colors">
+            <a href="#" class="px-6 py-4 text-orange-700 dark:text-orange-500 font-bold border-b border-gray-100 dark:border-slate-800">主页展览</a>
+            <a href="#" class="px-6 py-4 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 border-b border-gray-100 dark:border-slate-800">随笔文章</a>
+            <a href="#" class="px-6 py-4 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 border-b border-gray-100 dark:border-slate-800">作品集合</a>
+            <a href="#" class="px-6 py-4 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">关于我</a>
         </div>
     </nav>
 
-    <!-- 🌟 修复：手机全屏纯粹菜单 (z-index 拉到最高) -->
-    <div id="mobile-menu" class="fixed inset-0 bg-white dark:bg-slate-900 z-[100] flex-col items-center justify-center space-y-10 transition-all duration-300 opacity-0 pointer-events-none hidden">
-        <button onclick="toggleMobileMenu()" class="absolute top-6 right-6 p-2 rounded-full bg-slate-100 dark:bg-slate-800 hover:scale-110 transition-transform">
-            <span class="material-symbols-outlined text-3xl dark:text-white">close</span>
-        </button>
-        <a href="#" onclick="toggleMobileMenu()" class="menu-item-animate delay-1 text-3xl font-serif italic text-orange-700 dark:text-orange-500 border-b-2 border-orange-700 pb-2">主页展览.</a>
-        <a href="#" onclick="toggleMobileMenu()" class="menu-item-animate delay-2 text-3xl font-serif text-slate-800 dark:text-slate-200 hover:text-orange-500 transition-colors">随笔文章.</a>
-        <a href="#" onclick="toggleMobileMenu()" class="menu-item-animate delay-3 text-3xl font-serif text-slate-800 dark:text-slate-200 hover:text-orange-500 transition-colors">作品集合.</a>
-        <a href="#" onclick="toggleMobileMenu()" class="menu-item-animate delay-4 text-3xl font-serif text-slate-800 dark:text-slate-200 hover:text-orange-500 transition-colors">关于我.</a>
-    </div>
-
-    <div class="fixed top-0 left-0 w-1/4 h-1 bg-secondary z-[60] transition-all duration-500" id="progress-bar"></div>
-
     <!-- ========== 核心视觉区 ========== -->
     <main class="flex-1 w-full flex flex-col md:flex-row items-center justify-center px-6 md:px-20 pt-20 md:pt-28 pb-12 md:pb-16 relative overflow-visible">
+        
         <div class="absolute top-10 left-0 w-64 h-64 md:w-96 md:h-96 bg-secondary-fixed-dim/30 dark:bg-secondary-fixed-dim/10 rounded-full blur-3xl opacity-50 z-0 pointer-events-none"></div>
         <div class="absolute bottom-10 right-0 w-64 h-64 md:w-96 md:h-96 bg-primary-fixed/40 dark:bg-primary-fixed/10 rounded-full blur-3xl opacity-50 z-0 pointer-events-none"></div>
         
         <div class="flex flex-col md:flex-row items-center w-full max-w-7xl mx-auto gap-8 md:gap-24 relative z-10">
             
-            <!-- ====== 3D 图片特效区 (移除了所有悬浮按钮) ====== -->
+            <!-- ====== 3D 图片特效区 ====== -->
             <div class="w-full md:w-1/2 flex flex-col justify-center items-center order-1 md:order-2 relative group fade-transition mt-0" id="img-container">
                 <div style="perspective: 1200px; width: 100%; display: flex; justify-content: center;">
                     <div id="scroll-image" class="relative w-full max-w-[300px] h-[400px] md:max-w-[340px] md:h-[480px] rounded-xl shadow-[0_15px_40px_rgba(0,0,0,0.3)] dark:shadow-[0_15px_40px_rgba(0,0,0,0.8)] transition-all duration-700 ease-out 
@@ -124,33 +120,36 @@
                 <p id="proj-desc" class="font-body text-base md:text-xl text-on-surface-variant dark:text-gray-300 max-w-lg leading-relaxed transition-colors">
                     在这里记录技术探索、网页实验室以及偶尔的胡思乱想。一次对极简主义与前端工程化的视觉探索。
                 </p>
+                
                 <div class="flex flex-row items-center gap-4 pt-2 md:pt-6">
                     <a id="proj-link-1" href="#" class="bg-secondary-container dark:bg-orange-700 text-white px-6 md:px-8 py-3 md:py-4 rounded-md font-label uppercase tracking-widest text-xs md:text-sm font-bold hover:brightness-110 transition-all active:scale-95 shadow-lg shadow-secondary/20 block text-center">
                         阅读文章
                     </a>
-                    <a id="proj-link-2" href="#" class="group flex items-center space-x-1 md:space-x-2 py-2 md:py-4 text-primary dark:text-gray-200 font-bold font-label uppercase tracking-widest text-xs md:text-sm relative overflow-hidden block">
-                        <span>浏览作品</span>
+                    
+                    <!-- 🌟 修复：下划线现在完全包裹在"浏览作品"这四个字下方 -->
+                    <a id="proj-link-2" href="#" class="group flex items-center space-x-1 md:space-x-2 py-2 md:py-4 text-primary dark:text-gray-200 font-bold font-label uppercase tracking-widest text-xs md:text-sm block">
+                        <!-- 单独给文字加 relative，确保动画线完美贴合文字 -->
+                        <span class="relative inline-block">
+                            浏览作品
+                            <span class="absolute -bottom-1 left-0 w-full h-[2px] bg-secondary dark:bg-orange-400 scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
+                        </span>
                         <span class="material-symbols-outlined text-secondary dark:text-orange-400 transition-transform group-hover:translate-x-1 text-sm md:text-base">arrow_right_alt</span>
-                        <span class="absolute bottom-1 md:bottom-3 left-0 w-full h-[2px] bg-secondary dark:bg-orange-400 scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
                     </a>
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- ========== 🌟 终极底部控制台 (Arrows + Dash Line) ========== -->
+    <!-- ========== 底部控制台 (Arrows + 水滴指示器) ========== -->
     <div class="w-full flex justify-center items-center pb-8 mt-auto z-30 gap-6">
-        <!-- 左侧大按钮 -->
         <button onclick="changeProject(-1)" class="w-12 h-12 flex items-center justify-center rounded-full bg-surface-variant dark:bg-slate-800 text-primary dark:text-white hover:bg-secondary hover:text-white dark:hover:bg-orange-600 transition-all duration-300 shadow-md active:scale-90 shrink-0">
             <span class="material-symbols-outlined text-2xl">chevron_left</span>
         </button>
         
-        <!-- 核心指示器：横向切割线条风 -->
         <div class="flex space-x-3 items-center" id="dots-container">
             <!-- JS 自动生成 -->
         </div>
 
-        <!-- 右侧大按钮 -->
         <button onclick="changeProject(1)" class="w-12 h-12 flex items-center justify-center rounded-full bg-surface-variant dark:bg-slate-800 text-primary dark:text-white hover:bg-secondary hover:text-white dark:hover:bg-orange-600 transition-all duration-300 shadow-md active:scale-90 shrink-0">
             <span class="material-symbols-outlined text-2xl">chevron_right</span>
         </button>
@@ -166,7 +165,6 @@
 
     <!-- ================= JS 逻辑控制区 ================= -->
     <script>
-        // --- 黑暗模式 ---
         const htmlElement = document.documentElement;
         const themeIcon = document.getElementById('theme-icon');
         function toggleDarkMode() {
@@ -181,25 +179,13 @@
             }
         }
 
-        // --- 手机全屏菜单逻辑 ---
+        // 🌟 经典菜单展开逻辑 (点击展开，再点收起)
         const mobileMenu = document.getElementById('mobile-menu');
-        let isMenuOpen = false;
         function toggleMobileMenu() {
-            isMenuOpen = !isMenuOpen;
-            if (isMenuOpen) {
-                mobileMenu.classList.remove('hidden');
-                mobileMenu.style.pointerEvents = 'auto'; // 允许点击
-                setTimeout(() => mobileMenu.classList.remove('opacity-0'), 10);
-                document.body.style.overflow = 'hidden';
-            } else {
-                mobileMenu.classList.add('opacity-0');
-                mobileMenu.style.pointerEvents = 'none'; // 禁止点击
-                setTimeout(() => mobileMenu.classList.add('hidden'), 300);
-                document.body.style.overflow = '';
-            }
+            mobileMenu.classList.toggle('hidden');
+            mobileMenu.classList.toggle('flex');
         }
 
-        // --- 项目数据 ---
         const projects = [
             { tag: "Vol. 001 创刊号", title: "代码与 <br/> <span class='italic text-secondary dark:text-orange-500'>诗歌.</span>", desc: "在这里记录技术探索、网页实验室以及偶尔的胡思乱想。一次对极简主义与前端工程化的视觉探索。", img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=800&auto=format&fit=crop", num: "01" },
             { tag: "Vol. 002 实验室", title: "创意与 <br/> <span class='italic text-secondary dark:text-orange-500'>设计.</span>", desc: "收集全网最酷的UI交互灵感，将天马行空的设计草图，用原生代码一行行还原成真实的像素。", img: "https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=800&auto=format&fit=crop", num: "02" },
@@ -219,8 +205,9 @@
             dotsContainer.innerHTML = '';
             projects.forEach((_, index) => {
                 const dot = document.createElement('div');
-                // 🌟 新设计：长条指示器，极具现代科技感
-                dot.className = `h-1 rounded-full cursor-pointer transition-all duration-500 ${index === 0 ? 'w-10 bg-secondary dark:bg-orange-500' : 'w-4 bg-outline-variant dark:bg-slate-600 hover:bg-secondary-fixed'}`;
+                // 🌟 新设计：不对称水滴状/彗星状
+                // rounded-l-full (左边极其圆润) + rounded-r-sm (右边微钝角收尾)
+                dot.className = `h-2 md:h-2.5 cursor-pointer transition-all duration-500 ${index === 0 ? 'w-12 md:w-16 bg-secondary dark:bg-orange-500 rounded-l-full rounded-r-md' : 'w-4 md:w-6 bg-outline-variant dark:bg-slate-600 hover:bg-secondary-fixed rounded-full'}`;
                 dot.onclick = () => jumpToProject(index);
                 dotsContainer.appendChild(dot);
             });
@@ -242,8 +229,8 @@
 
                 Array.from(dotsContainer.children).forEach((dot, index) => {
                     dot.className = index === currentIndex 
-                        ? 'h-1 rounded-full cursor-pointer transition-all duration-500 w-10 bg-secondary dark:bg-orange-500' 
-                        : 'h-1 rounded-full cursor-pointer transition-all duration-500 w-4 bg-outline-variant dark:bg-slate-600 hover:bg-secondary-fixed';
+                        ? 'h-2 md:h-2.5 cursor-pointer transition-all duration-500 w-12 md:w-16 bg-secondary dark:bg-orange-500 rounded-l-full rounded-r-md' 
+                        : 'h-2 md:h-2.5 cursor-pointer transition-all duration-500 w-4 md:w-6 bg-outline-variant dark:bg-slate-600 hover:bg-secondary-fixed rounded-full';
                 });
 
                 textContainer.classList.remove('fade-out');
