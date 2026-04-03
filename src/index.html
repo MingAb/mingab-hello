@@ -35,9 +35,6 @@
         .fade-transition { transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out; }
         .fade-out { opacity: 0; transform: translateY(10px); }
         html, body { overflow-x: hidden; width: 100%; min-height: 100vh; scroll-behavior: smooth; }
-        
-        /* 🌟 科技感菱形指示器专属样式 */
-        .diamond-dot { clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0% 50%); }
     </style>
 </head>
 
@@ -82,7 +79,7 @@
         <div class="absolute top-10 left-0 w-64 h-64 md:w-96 md:h-96 bg-secondary-fixed-dim/30 dark:bg-secondary-fixed-dim/10 rounded-full blur-3xl opacity-50 z-0 pointer-events-none"></div>
         <div class="absolute bottom-10 right-0 w-64 h-64 md:w-96 md:h-96 bg-primary-fixed/40 dark:bg-primary-fixed/10 rounded-full blur-3xl opacity-50 z-0 pointer-events-none"></div>
         
-        <!-- 🌟 电脑端：霸气的侧边悬浮左箭头 (md:flex) -->
+        <!-- 电脑端左侧大按钮 -->
         <button onclick="changeProject(-1)" class="hidden md:flex absolute left-8 z-40 w-14 h-14 items-center justify-center rounded-full bg-white dark:bg-slate-800 text-primary dark:text-white hover:bg-secondary hover:text-white dark:hover:bg-orange-600 transition-all duration-300 shadow-xl active:scale-95">
             <span class="material-symbols-outlined text-3xl">arrow_back_ios_new</span>
         </button>
@@ -124,21 +121,20 @@
                         阅读文章
                     </a>
                     
-                    <!-- 🌟 完美修复：下划线现在包裹了 [文字 + 间隔 + 箭头] 这个完整的整体区块 -->
+                    <!-- 🌟 完美修复：加粗下划线 h-[3px]，且动画过渡完全一致不模糊 -->
                     <a id="proj-link-2" href="#" class="group relative py-2 md:py-4 text-primary dark:text-gray-200 font-bold font-label uppercase tracking-widest text-xs md:text-sm block">
-                        <!-- 内容层 -->
                         <span class="flex items-center space-x-1 md:space-x-2 relative z-10">
                             <span>浏览作品</span>
                             <span class="material-symbols-outlined text-secondary dark:text-orange-400 transition-transform group-hover:translate-x-1 text-sm md:text-base">arrow_right_alt</span>
                         </span>
-                        <!-- 下划线动画层 (相对于最外层的 a 标签定位，100% 覆盖) -->
-                        <span class="absolute bottom-1 md:bottom-3 left-0 w-full h-[2px] bg-secondary dark:bg-orange-400 scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
+                        <!-- 这里的 h-[3px] 让它非常清晰扎实 -->
+                        <span class="absolute bottom-1 md:bottom-3 left-0 w-full h-[3px] bg-secondary dark:bg-orange-400 scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300 ease-out"></span>
                     </a>
                 </div>
             </div>
         </div>
 
-        <!-- 🌟 电脑端：霸气的侧边悬浮右箭头 (md:flex) -->
+        <!-- 电脑端右侧大按钮 -->
         <button onclick="changeProject(1)" class="hidden md:flex absolute right-8 z-40 w-14 h-14 items-center justify-center rounded-full bg-white dark:bg-slate-800 text-primary dark:text-white hover:bg-secondary hover:text-white dark:hover:bg-orange-600 transition-all duration-300 shadow-xl active:scale-95">
             <span class="material-symbols-outlined text-3xl">arrow_forward_ios</span>
         </button>
@@ -146,17 +142,14 @@
 
     <!-- ========== 🌟 手机端专属控制台 (只在 md:hidden 时显示) ========== -->
     <div class="w-full flex md:hidden justify-center items-center pb-8 mt-auto z-30 gap-6">
-        <!-- 手机端底部的左箭头 -->
-        <button onclick="changeProject(-1)" class="w-12 h-12 flex items-center justify-center rounded-full bg-surface-variant dark:bg-slate-800 text-primary dark:text-white active:scale-90 shadow-md">
+        <button onclick="changeProject(-1)" class="w-12 h-12 flex items-center justify-center rounded-full bg-surface-variant dark:bg-slate-800 text-primary dark:text-white hover:bg-secondary hover:text-white transition-all duration-300 shadow-md active:scale-90 shrink-0">
             <span class="material-symbols-outlined text-2xl">chevron_left</span>
         </button>
         
-        <!-- 手机端指示器容器 (将通过 JS 渲染) -->
-        <div class="flex space-x-2 items-center" id="mobile-dots-container">
-        </div>
+        <!-- 手机端指示器 -->
+        <div class="flex space-x-2 items-center" id="mobile-dots-container"></div>
 
-        <!-- 手机端底部的右箭头 -->
-        <button onclick="changeProject(1)" class="w-12 h-12 flex items-center justify-center rounded-full bg-surface-variant dark:bg-slate-800 text-primary dark:text-white active:scale-90 shadow-md">
+        <button onclick="changeProject(1)" class="w-12 h-12 flex items-center justify-center rounded-full bg-surface-variant dark:bg-slate-800 text-primary dark:text-white hover:bg-secondary hover:text-white transition-all duration-300 shadow-md active:scale-90 shrink-0">
             <span class="material-symbols-outlined text-2xl">chevron_right</span>
         </button>
     </div>
@@ -167,11 +160,12 @@
         <div class="font-sans text-xs uppercase tracking-widest text-white/60 text-center">
             © 2024 极客阿明. 用键盘敲击世界.
         </div>
-        
-        <!-- 🌟 电脑端专属指示器 (只在 md:flex 时显示，固定在底部栏右侧) -->
-        <div class="hidden md:flex absolute right-12 top-1/2 -translate-y-1/2 space-x-3 items-center z-40" id="desktop-dots-container">
-        </div>
     </footer>
+
+    <!-- ========== 🌟 电脑端专属指示器：绝对悬浮在右下角 ========== -->
+    <!-- fixed 固定定位，摆脱了 footer 的限制，极其优雅的悬浮 -->
+    <div class="hidden md:flex fixed right-12 bottom-12 space-x-3 items-center z-50" id="desktop-dots-container">
+    </div>
 
     <!-- ================= JS 逻辑控制区 ================= -->
     <script>
@@ -209,30 +203,34 @@
         const scrollImage = document.getElementById('scroll-image');
         const innerImg = document.getElementById('proj-img');
         
-        // 分别获取手机端和电脑端的指示器容器
         const mobileDotsContainer = document.getElementById('mobile-dots-container');
         const desktopDotsContainer = document.getElementById('desktop-dots-container');
 
-        function renderDots(container) {
+        // 🌟 恢复经典胶囊圆点设计，且支持两个容器复用渲染
+        function renderDots(container, isDesktop) {
             container.innerHTML = '';
             projects.forEach((_, index) => {
                 const dot = document.createElement('div');
-                // 🌟 最新设计：菱形科技点钻石切割！
-                // 使用了 css 里自定义的 diamond-dot class (clip-path 截取的锐利图形)
                 const isActive = index === currentIndex;
-                const activeClass = isActive 
-                    ? 'w-8 bg-secondary dark:bg-orange-500 opacity-100' 
-                    : 'w-3 bg-outline-variant dark:bg-slate-500 hover:bg-secondary-fixed opacity-70';
                 
-                dot.className = `h-3 diamond-dot cursor-pointer transition-all duration-500 ${activeClass}`;
+                // 电脑端和手机端大小稍微有点区别，但风格统一为胶囊圆点
+                const baseSize = isDesktop ? 'h-2.5' : 'h-2';
+                const activeWidth = isDesktop ? 'w-8' : 'w-6';
+                const inactiveWidth = isDesktop ? 'w-2.5' : 'w-2';
+                
+                const activeClass = isActive 
+                    ? `${activeWidth} bg-secondary dark:bg-orange-500` 
+                    : `${inactiveWidth} bg-outline-variant dark:bg-slate-500 hover:bg-secondary-fixed`;
+                
+                dot.className = `${baseSize} rounded-full cursor-pointer transition-all duration-500 ${activeClass}`;
                 dot.onclick = () => jumpToProject(index);
                 container.appendChild(dot);
             });
         }
 
         function initDots() {
-            renderDots(mobileDotsContainer);
-            renderDots(desktopDotsContainer);
+            renderDots(mobileDotsContainer, false);
+            renderDots(desktopDotsContainer, true);
         }
 
         function updateUI() {
@@ -249,9 +247,9 @@
 
                 progressBar.style.width = `${((currentIndex + 1) / projects.length) * 100}%`;
 
-                // 更新两端指示器状态
-                renderDots(mobileDotsContainer);
-                renderDots(desktopDotsContainer);
+                // 同步更新两端的圆点状态
+                renderDots(mobileDotsContainer, false);
+                renderDots(desktopDotsContainer, true);
 
                 textContainer.classList.remove('fade-out');
                 imgContainer.classList.remove('fade-out');
